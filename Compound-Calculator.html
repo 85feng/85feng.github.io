@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- .0 for better compatibility -->
+    <title>複利計算機｜線上即時試算複利終值(FV)與現值(PV)</title>
+    <meta name="description" content="最強大的線上複利計算機，一站式整合複利終值與現值計算。無論是預測未來財富，還是回推達成目標所需的初始本金，都能輕鬆試算。附帶詳細步驟教學與公式詳解，深入了解複利財富增長奧秘。" />
+    <meta name="keywords" content="複利計算機, 複利計算, 複利終值計算機, 複利現值計算機, 未來價值, 現值, 利滾利, 72法則, 財務規劃, 投資回報, 利息計算" />
+    
+    <!-- SEO 優化: 新增 JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "複利計算機｜線上即時試算複利終值(FV)與現值(PV)",
+      "description": "最強大的線上複利計算機，一站式整合複利終值與現值計算。無論是預測未來財富，還是回推達成目標所需的初始本金，都能輕鬆試算。",
+      "mainEntity": {
+        "@type": "HowTo",
+        "name": "如何使用複利計算機",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "選擇計算模式",
+            "text": "根據您的需求，在「計算未來價值 (終值)」和「回推初始本金 (現值)」兩個頁籤中選擇一個。"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "輸入參數",
+            "text": "在對應的欄位中填寫您的本金（或目標金額）、年利率、投資期限和計息頻率。"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "執行計算",
+            "text": "點擊「計算終值」或「計算現值」按鈕。"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "查看結果",
+            "text": "計算機下方將立即顯示詳細的計算結果，包括總額和利息收益。"
+          }
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "我應該使用哪個計算模式？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "這取決於您的問題。如果您想知道「一筆錢未來會變多少」，請使用「計算未來價值 (終值)」。如果您想知道「為了達成未來目標，現在要存多少」，請使用「回推初始本金 (現值)」"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "單利和複利最大的差別是什麼？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "最大的差別在於「利息是否會再產生利息」。單利的利息永遠只根據初始本金計算，增長是線性的；複利的利息會滾入本金，增長是指數性的。長期下來，複利的效果遠勝於單利。"
+          }
+        },
+        {
+            "@type": "Question",
+            "name": "什麼是72法則？它和複利有什麼關係？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "72法則是基於複利原理的一個速算捷徑，用來估算在固定的年化報酬率下，資產翻一倍所需的時間（年數 ≈ 72 / 年化報酬率%）。它是理解複利威力的一個好方法。"
+            }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #9b59b6; 
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-layout-container { flex: 1; }
+        nav { width: 100%; background: var(--primary-color); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 60px; flex-wrap: nowrap; }
+        .nav-title { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 2rem; font-size: 1.1rem; list-style: none; margin: 0; padding: 0; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        .menu-overlay.show { display: block; opacity: 1; }
+        h1, h2, h3, h4 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+        .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 0; }
+        .main-right { flex: 1; min-width: 220px; position: sticky; top: calc(var(--navbar-height) + 2rem); }
+        .card, .calculator-highlight { background: var(--card-background); border-radius: var(--border-radius-lg); box-shadow: var(--card-shadow); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav { background: #f4f8fb; border-radius: var(--border-radius-md); padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8 inset; margin: 2.5rem 0; }
+        .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin: 0 0 0.7rem 0; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+        .tool-recommend, .news-feed { margin-bottom: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: var(--text-color-dark); margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item a, .news-item a { font-weight: 600; text-decoration: none; }
+        .tool-item a { color: #2980b9; }
+        .news-item a { color: var(--text-color-dark); }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 1rem; table-layout: fixed; }
+        th, td { border: 1px solid #ddd; padding: 0.8rem; text-align: center; word-break: break-all; }
+        th { background-color: #f8f9fa; font-weight: 600; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .case, .faq { border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        footer { background: #34495e; color: #ecf0f1; padding: 2rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: auto; }
+        .footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; margin: 0 0.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: #495057; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; transition: all 0.2s ease; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .input-wrapper .input-unit { position: absolute; right: 12px; color: #888; pointer-events: none; }
+        .button-group { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .button-group button { margin: 0; padding: 0.8rem 1rem; font-weight: 600; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s ease; }
+        .button-group button[type="submit"] { background: var(--primary-color); color: #fff; }
+        .button-group button[type="submit"]:hover { background: var(--primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .button-group button[type="reset"] { background: #f1f3f5; color: #868e96; border: 1px solid #dee2e6; }
+        .button-group button[type="reset"]:hover { background: #e9ecef; }
+        .result { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid var(--secondary-color); padding: 1.5rem; margin-top: 2.5rem; border-radius: 0 8px 8px 0; }
+        .result h3 { margin-top: 0; }
+        .result-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center; margin: 1.5rem 0; }
+        .result-item { background: var(--card-background); padding: 1.25rem 1rem; border-radius: var(--border-radius-md); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .result-item .label { display: block; font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem; }
+        .result-item .value { font-size: 1.75rem; font-weight: 700; color: var(--text-color-dark); }
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 1.5rem; }
+        .tab-button { flex: 1; padding: 1rem 0.5rem; border: none; background: transparent; cursor: pointer; font-size: 1.1rem; font-weight: 600; color: #7f8c8d; transition: all 0.3s; border-bottom: 3px solid transparent; text-align: center; }
+        .tab-button.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- 新增區塊 CSS: 使用步驟 --- */
+        .how-to-use { border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2rem; }
+        .how-to-use h2 { text-align: center; margin-bottom: 2rem; }
+        .steps-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+        .step-item { text-align: center; }
+        .step-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 60px; height: 60px; border-radius: 50%;
+            background-color: var(--primary-color); color: white;
+            margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            font-size: 1.8rem; font-weight: bold;
+        }
+        .step-item h4 { margin-bottom: 0.5rem; color: var(--text-color-dark); }
+        .step-item p { font-size: 0.95rem; color: #6c757d; padding: 0 0.5rem; }
+        
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-links { position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50; flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem; gap: 1.5rem; z-index: 999; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .nav-links.show { transform: translateX(0); }
+            .nav-links a { font-size: 1.2rem; width: 100%; }
+            .main-layout { flex-direction: column; padding: 0 1rem; gap: 0; }
+            .main-right { position: static; width: 100%; order: 4; }
+            .calculator-highlight { order: 1; }
+            .main-left { order: 2; min-width: unset; width: 100%; }
+            .form-grid, .button-group, .result-summary { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">複利計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="Compound-Calculator.html">複利計算機</a>
+            </ul>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main class="main-layout-container"> <!-- 使用 main 標籤 -->
+        <div class="main-layout">
+            <div class="main-left">
+                <section class="calculator-highlight" aria-labelledby="calculator-heading"> <!-- 使用 section -->
+                    <h1 id="calculator-heading">複利計算機</h1>
+                    <p>線上複利計算機，可計算複利終值和複利現值，支援以年、月、日多種複利方式計算，並可查看複利計算明細。</p>
+                    
+                    <div class="tabs">
+                        <button class="tab-button active" data-tab="fv-tab" role="tab" aria-controls="fv-tab" aria-selected="true">計算未來價值 (終值)</button>
+                        <button class="tab-button" data-tab="pv-tab" role="tab" aria-controls="pv-tab" aria-selected="false">回推初始本金 (現值)</button>
+                    </div>
+
+                    <!-- 終值計算器 -->
+                    <div id="fv-tab" class="tab-content active" role="tabpanel">
+                        <form id="fvForm">
+                            <div class="form-grid">
+                                <div class="form-group"><label for="fv-principal">初始本金</label><div class="input-wrapper"><input type="number" id="fv-principal" value="100000" min="0" required><span class="input-unit">元</span></div></div>
+                                <div class="form-group"><label for="fv-rate">年利率</label><div class="input-wrapper"><input type="number" id="fv-rate" value="5" min="0" step="0.1" required><span class="input-unit">%</span></div></div>
+                                <div class="form-group"><label for="fv-years">投資期限</label><div class="input-wrapper"><input type="number" id="fv-years" value="10" min="1" required><span class="input-unit">年</span></div></div>
+                                <div class="form-group"><label for="fv-freq">計息頻率</label><select id="fv-freq" required><option value="12" selected>每月</option><option value="365">每日</option><option value="4">每季</option><option value="1">每年</option></select></div>
+                            </div>
+                            <div class="button-group"><button type="submit">計算終值</button><button type="reset">重設</button></div>
+                        </form>
+                        <div id="fv-result" class="result" style="display:none;">
+                             <h3>未來價值 (終值) 計算結果</h3>
+                             <div class="result-summary">
+                                <div class="result-item"><span class="label">未來資產總額</span><span class="value" id="fv-finalAmount">0</span></div>
+                                <div class="result-item"><span class="label">總利息收益</span><span class="value" id="fv-totalInterest">0</span></div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- 現值計算器 -->
+                    <div id="pv-tab" class="tab-content" role="tabpanel">
+                        <form id="pvForm">
+                             <div class="form-grid">
+                                <div class="form-group"><label for="pv-futureValue">未來目標金額</label><div class="input-wrapper"><input type="number" id="pv-futureValue" value="1000000" min="0" required><span class="input-unit">元</span></div></div>
+                                <div class="form-group"><label for="pv-rate">預期年利率</label><div class="input-wrapper"><input type="number" id="pv-rate" value="5" min="0" step="0.1" required><span class="input-unit">%</span></div></div>
+                                <div class="form-group"><label for="pv-years">投資年期</label><div class="input-wrapper"><input type="number" id="pv-years" value="20" min="1" required><span class="input-unit">年</span></div></div>
+                                <div class="form-group"><label for="pv-freq">計息頻率</label><select id="pv-freq" required><option value="12" selected>每月</option><option value="365">每日</option><option value="4">每季</option><option value="1">每年</option></select></div>
+                            </div>
+                            <div class="button-group"><button type="submit">計算現值</button><button type="reset">重設</button></div>
+                        </form>
+                        <div id="pv-result" class="result" style="display:none;">
+                             <h3>初始本金 (現值) 計算結果</h3>
+                             <div class="result-summary">
+                                <div class="result-item"><span class="label">需投入的初始本金</span><span class="value" id="pv-presentValue">0</span></div>
+                                <div class="result-item"><span class="label">預期總利息</span><span class="value" id="pv-totalInterest">0</span></div>
+                             </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="card how-to-use" id="how-to-use" aria-labelledby="how-to-heading">
+                    <h2 id="how-to-heading">三分鐘學會使用複利計算機</h2>
+                    <div class="steps-container">
+                        <div class="step-item">
+                            <div class="step-icon">1</div>
+                            <h4>選擇模式</h4>
+                            <p>根據您的需求，選擇「計算終值」或「回推本金」。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">2</div>
+                            <h4>輸入參數</h4>
+                            <p>填寫本金/目標、年利率、期限與計息頻率等欄位。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">3</div>
+                            <h4>點擊計算</h4>
+                            <p>輸入完成後，點擊藍色的「計算」按鈕。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">4</div>
+                            <h4>查看結果</h4>
+                            <p>下方將立即顯示您的資產總額與利息收益的詳細報告。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- UX 佈局調整: 將快速導覽移至此處 -->
+                <div class="quick-nav">
+                    <h3>本頁快速導覽</h3>
+                    <ul>
+                        <li><a href="#how-to-use">計算機使用教學</a></li>
+                        <li><a href="#what-is-compounding">複利是什麼</a></li>
+                        <li><a href="#formulas">複利公式詳解</a></li>
+                        <li><a href="#compound-faq">常見問答</a></li>
+                    </ul>
+                </div>
+
+                <section class="card" id="what-is-compounding" aria-labelledby="what-is-heading">
+                    <h2 id="what-is-heading">複利是什麼</h2>
+                    <p>複利，常被稱為<strong>「利滾利」</strong>，是一種計算利息的方法。它的核心在於，利息除了會根據本金計算外，新得到的利息同樣可以生息，因此俗稱「利滾利」。</p>
+                    <ul>
+                        <li><strong>複利終值 (Future Value, FV):</strong> 又稱未來價值或本利和，是指將一筆資金按複利計算，經過一定時期後所得到的本金和利息總和。 簡單來說，就是把錢放進銀行，經過一段時間，連本帶利拿回來的總金額。</li>
+                        <li><strong>複利現值 (Present Value, PV):</strong> 指的是未來的一筆資金，相當於今天的多少價值。它回答的問題是：「如果我希望10年後擁有50萬元，在年利率5%的情況下，我今天需要投入多少錢？」<strong>（回推初始本金）</strong></li>
+                    </ul>
+                     <p>複利現值和複利終值是兩個互為對稱的概念，主要用來計算金錢在不同時間點的價值。</p>
+                </section>
+                
+                <section class="card" id="formulas" aria-labelledby="formulas-heading">
+                    <h2 id="formulas-heading">複利公式詳解</h2>
+                    <p>理解終值與現值的計算公式，能幫助您更深入地掌握財務規劃（如購屋、子女教育、養老）。</p>
+                    <h4>1. 複利終值 (FV) 公式：</h4>
+                    <pre><code>FV = PV * (1 + r/n)^(n*t)</code></pre>
+                    <p><strong>舉例:</strong><br>假設你現在投資了100,000元 (PV)，年利率是5% (r=0.05)，每年計息一次 (n=1)，投資期限是10年 (t=10)，那麼10年後你的複利終值(FV) 就是：<br>FV = 100,000 * (1 + 0.05/1)^(1*10) ≈ 162,889 元</p>
+                    <h4>2. 複利現值 (PV) 公式：</h4>
+                    <pre><code>PV = FV / (1 + r/n)^(n*t)</code></pre>
+                    <p><strong>舉例:</strong><br>如果希望在20年後獲得1,000,000元 (FV)，假設預期年利率為5% (r=0.05)，每月計息一次 (n=12)，那麼現在需要投入的本金 (PV) 是多少呢？<br>PV = 1,000,000 / (1 + 0.05/12)^(12*20) ≈ 368,648 元</p>
+                </section>
+           
+                <section class="card" id="compound-faq" aria-labelledby="faq-heading">
+                    <h2 id="faq-heading">複利計算常見問答 (FAQ)</h2>
+                    <div class="faq">
+                        <h4>1. 我應該使用哪個計算模式？</h4>
+                        <p>這取決於您的問題。如果您想知道「一筆錢未來會變多少」，請使用**「計算未來價值 (終值)」**。如果您想知道「為了達成未來目標，現在要存多少」，請使用**「回推初始本金 (現值)」**。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>2. 單利和複利最大的差別是什麼？</h4>
+                        <p>最大的差別在於「利息是否會再產生利息」。單利的利息永遠只根據初始本金計算，增長是線性的；複利的利息會滾入本金，增長是指數性的。長期下來，複利的效果遠勝於單利。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>3. 什麼是72法則？它和複利有什麼關係？</h4>
+                        <p>72法則是基於複利原理的一個速算捷徑，用來估算在固定的年化報酬率下，資產翻一倍所需的時間（年數 ≈ 72 / 年化報酬率%）。它是理解複利威力的一個好方法。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>4. 計息頻率越高，結果差異越大嗎？</h4>
+                        <p>是的，計息頻率越高（如每日 vs. 每年），複利效應越顯著，同樣的年利率下，終值會越高，所需現值則會越低。但當頻率高到一定程度（如每日），再增加所帶來的差異會變得很小。</p>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="main-right">
+                <div class="tool-recommend">
+                    <h3>其他理財工具</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>理財知識</h3>
+                                   <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© <span id="copyright-year"></span> 複利計算機 | 本網站計算結果僅供參考，不構成投資建議。</p>
+           <div class="footer-links"><a href="privacy-policy.html">隱私權政策</a><a href="Terms-of-Service.html">服務條款</a><a href="Contact-Us.html">聯繫我們</a></div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 互動元件選擇 ---
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // --- 手機版選單功能 ---
+        const toggleMenu = () => {
+            const isActive = hamburger.classList.toggle('active');
+            navLinks.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+
+        // --- 頁籤切換功能 ---
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => {
+                    item.classList.remove('active');
+                    item.setAttribute('aria-selected', 'false');
+                });
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                const activeTabContent = document.getElementById(tab.dataset.tab);
+                activeTabContent.classList.add('active');
+            });
+        });
+
+        // --- 數字格式化輔助函數 ---
+        const formatNumber = (num) => num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+        // --- 終值計算機功能 ---
+        const fvForm = document.getElementById('fvForm');
+        if (fvForm) {
+            fvForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const principal = parseFloat(document.getElementById('fv-principal').value);
+                const rate = parseFloat(document.getElementById('fv-rate').value) / 100;
+                const years = parseFloat(document.getElementById('fv-years').value);
+                const freq = parseInt(document.getElementById('fv-freq').value, 10);
+
+                if (isNaN(principal) || isNaN(rate) || isNaN(years) || principal < 0 || rate < 0 || years <= 0) { alert('請輸入有效的正數值。'); return; }
+
+                const n = freq;
+                const t = years;
+                const finalAmount = principal * Math.pow(1 + rate / n, n * t);
+                const totalInterest = finalAmount - principal;
+
+                document.getElementById('fv-finalAmount').textContent = formatNumber(Math.round(finalAmount));
+                document.getElementById('fv-totalInterest').textContent = formatNumber(Math.round(totalInterest));
+                document.getElementById('fv-result').style.display = 'block';
+            });
+            fvForm.querySelector('button[type="reset"]').addEventListener('click', () => { document.getElementById('fv-result').style.display = 'none'; });
+        }
+        
+        // --- 現值計算機功能 ---
+        const pvForm = document.getElementById('pvForm');
+        if (pvForm) {
+            pvForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const futureValue = parseFloat(document.getElementById('pv-futureValue').value);
+                const rate = parseFloat(document.getElementById('pv-rate').value) / 100;
+                const years = parseFloat(document.getElementById('pv-years').value);
+                const freq = parseInt(document.getElementById('pv-freq').value, 10);
+
+                if (isNaN(futureValue) || isNaN(rate) || isNaN(years) || futureValue <= 0 || rate < 0 || years <= 0) { alert('請輸入有效的正數值。'); return; }
+                
+                const n = freq;
+                const t = years;
+                const presentValue = futureValue / Math.pow(1 + rate / n, n * t);
+                const totalInterest = futureValue - presentValue;
+
+                document.getElementById('pv-presentValue').textContent = formatNumber(Math.round(presentValue));
+                document.getElementById('pv-totalInterest').textContent = formatNumber(Math.round(totalInterest));
+                document.getElementById('pv-result').style.display = 'block';
+            });
+            pvForm.querySelector('button[type="reset"]').addEventListener('click', () => { document.getElementById('pv-result').style.display = 'none'; });
+        }
+
+        // --- 平滑滾動功能 (更佳體驗) ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    if (navLinks.classList.contains('show')) toggleMenu();
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20; // 20px buffer
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // --- 動態設定頁腳年份 ---
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    });
+    </script>
+</body>
+</html>
