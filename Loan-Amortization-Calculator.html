@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>貸款計算機 | 房貸、車貸、信貸每月還款額與利息試算工具</title>
+    <meta name="description" content="免費的線上貸款計算機，適用於房貸、車貸與個人信貸。輸入貸款總額、年利率與期限，即可精準試算每月還款額、總支付利息，並提供完整還款明細表（攤還表）。" />
+    
+    <!-- SEO 優化: 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "貸款計算機 | 房貸、車貸、信貸每月還款額與利息試算",
+      "description": "免費的線上貸款計算機，適用於房貸、車貸與個人信貸。輸入貸款總額、年利率與期限，即可精準試算每月還款額、總支付利息，並提供完整還款明細表。",
+      "url": "https://www.yourcompoundcalculator.com/Loan-Amortization-Calculator.html", /* 請替換成你的真實網址 */
+      "mainEntity": [
+        {
+          "@type": "Calculator",
+          "name": "貸款計算機",
+          "description": "計算本息平均攤還法的每月還款額、總利息與總還款金額。"
+        },
+        {
+          "@type": "HowTo",
+          "name": "如何使用貸款計算機",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "輸入貸款條件",
+              "text": "在「貸款總額」、「貸款年利率」與「貸款期限」欄位中填入您的貸款條件。"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "開始計算",
+              "text": "點擊藍色的「開始試算」按鈕。"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "查看結果摘要",
+              "text": "計算機下方會立即顯示「每月還款額」、「總支付利息」和「本息總支付金額」的摘要。"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "檢視還款明細",
+              "text": "向下滾動即可查看完整的「還款明細表」，了解每一期的本金與利息分佈。"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "如何使用這個貸款計算機試算房貸？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "使用本房貸試算機，只需輸入您所要貸款的金額、利率和年限。假設您想申請一筆800萬、利率2.2%、期限30年的房屋貸款。只需在「貸款總額」輸入8000000，「貸款年利率」輸入2.2，「貸款期限」輸入30，然後點擊「開始試算」，即可得知每月房貸月付金與詳細還款計畫。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "什麼是「攤還表」(Amortization Schedule)？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "攤還表就是我們計算結果中提供的「還款明細表」。它詳細列出了您在每一期（通常是每個月）的還款中，有多少錢是用於償還本金，多少錢是支付利息，以及每期還款後剩餘的貸款餘額。這能幫助您清晰地掌握整個還款進程。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "有沒有方法可以降低總利息支出？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "有的。主要有三種方式：(1) 爭取更低的貸款利率；(2) 縮短貸款期限（例如從30年改為20年），雖然月付金會增加，但總利息會大幅減少；(3) 在有餘裕時進行部分提前還款（大額還款），直接減少本金，後續的利息計算基礎也會隨之降低。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "什麼是寬限期？這個計算器有包含嗎？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "寬限期是指在貸款初期的一段時間內（通常為1-5年），借款人可以只繳利息、不還本金。這會讓初期的月付金非常低，但寬限期一過，月付金會大幅增加。請注意：本計算器目前採用標準的無寬限期模式進行計算。"
+          }
+        }
+      ]
+    }
+    </script>
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #27ae60; /* 為貸款選擇一個穩重的綠色 */
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-layout-container { flex: 1; }
+        nav { width: 100%; background: var(--primary-color); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 60px; flex-wrap: nowrap; }
+        .nav-title { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 2rem; font-size: 1.1rem; list-style: none; margin: 0; padding: 0; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        .menu-overlay.show { display: block; opacity: 1; }
+        h1, h2, h3, h4 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+        .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 0; }
+        .main-right { flex: 1; min-width: 220px; position: sticky; top: calc(var(--navbar-height) + 2rem); }
+        .card, .calculator-highlight { background: #fff; border-radius: var(--border-radius-lg); box-shadow: var(--card-shadow); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav { background: #f4f8fb; border-radius: var(--border-radius-md); padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8 inset; margin: 2.5rem 0; }
+        .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin: 0 0 0.7rem 0; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+        .tool-recommend, .news-feed { margin-bottom: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: var(--text-color-dark); margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item a, .news-item a { font-weight: 600; text-decoration: none; }
+        .tool-item a { color: #2980b9; }
+        .news-item a { color: var(--text-color-dark); }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 2rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; table-layout: auto; } /* table-layout auto for better column sizing */
+        th, td { border: 1px solid #ddd; padding: 0.8rem; text-align: center; white-space: nowrap; }
+        th { background-color: #f8f9fa; font-weight: 600; position: sticky; top: 0; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .faq { border-left: 4px solid var(--primary-color); padding-left: 1rem; }
+        footer { background: #34495e; color: #ecf0f1; padding: 2rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: auto; }
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+        .footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: #495057; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        input { width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; transition: all 0.2s ease; }
+        input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .input-wrapper .input-unit { position: absolute; right: 12px; color: #888; pointer-events: none; }
+        .button-group { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .button-group button { margin: 0; padding: 0.8rem 1rem; font-weight: 600; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s ease; }
+        .button-group button[type="submit"] { background: var(--primary-color); color: #fff; }
+        .button-group button[type="submit"]:hover { background: var(--primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .button-group button[type="reset"] { background: #f1f3f5; color: #868e96; border: 1px solid #dee2e6; }
+        .button-group button[type="reset"]:hover { background: #e9ecef; }
+        #result { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid var(--secondary-color); padding: 1.5rem; margin-top: 2.5rem; border-radius: 0 8px 8px 0; }
+        #result h3 { margin-top: 0; }
+        .result-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center; margin: 1.5rem 0; }
+        .result-item { background: var(--card-background); padding: 1.25rem 1rem; border-radius: var(--border-radius-md); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .result-item .label { display: block; font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem; }
+        .result-item .value { font-size: 1.75rem; font-weight: 700; color: var(--text-color-dark); }
+
+        /* --- 新增區塊 CSS: 使用步驟 --- */
+        .how-to-use { border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2.5rem; }
+        .how-to-use h2 { text-align: center; margin-bottom: 2rem; }
+        .steps-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .step-item { text-align: center; }
+        .step-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 60px; height: 60px; border-radius: 50%;
+            background-color: var(--primary-color); color: white;
+            margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            font-size: 1.8rem; font-weight: bold;
+        }
+        .step-item h4 { margin-bottom: 0.5rem; color: var(--text-color-dark); }
+        .step-item p { font-size: 0.95rem; color: #6c757d; padding: 0 0.5rem; }
+
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-links { position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50; flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem; gap: 1.5rem; z-index: 999; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .nav-links.show { transform: translateX(0); }
+            nav .nav-links li a { font-size: 1.2rem; width: 100%; } /* specificity fix */
+            .main-layout { flex-direction: column; padding: 0 1rem; gap: 0; }
+            .main-right { position: static; width: 100%; order: 4; }
+            .calculator-highlight { order: 1; }
+            .main-left { order: 2; min-width: unset; width: 100%; }
+            .form-grid, .button-group, .result-summary { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">貸款計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <ul class="nav-links" id="nav-links"> 
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </ul>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main class="main-layout-container"> <!-- 使用 main 標籤 -->
+        <div class="main-layout">
+            <div class="main-left">
+                <section class="calculator-highlight" aria-labelledby="calculator-heading"> <!-- 使用 section -->
+                    <h1 id="calculator-heading">線上貸款計算機</h1>
+                    <p>本綫上貸款計算機可協助您規劃**房屋貸款**、**汽車貸款**或**個人信用貸款**。輸入貸款資訊，即可立即得知每月還款金額、總利息支出，並獲得詳細的還款計畫表。</p>
+                    <form id="loanForm">
+                        <div class="form-grid">
+                            <div class="form-group"><label for="loanAmount">貸款總額</label><div class="input-wrapper"><input type="number" id="loanAmount" value="3000000" min="0" step="10000" required><span class="input-unit">元</span></div></div>
+                            <div class="form-group"><label for="annualRate">貸款年利率</label><div class="input-wrapper"><input type="number" id="annualRate" value="2.1" min="0" step="0.01" required><span class="input-unit">%</span></div></div>
+                            <div class="form-group"><label for="loanTerm">貸款期限</label><div class="input-wrapper"><input type="number" id="loanTerm" value="30" min="1" step="1" required><span class="input-unit">年</span></div></div>
+                        </div>
+                        <div class="button-group"><button type="submit">開始試算</button><button type="reset">清除重填</button></div>
+                    </form>
+                    <div id="result" style="display:none;">
+                        <h3>貸款試算結果</h3>
+                        <div class="result-summary">
+                            <div class="result-item"><span class="label">每月還款額</span><span class="value" id="monthlyPayment">0</span></div>
+                            <div class="result-item"><span class="label">總支付利息</span><span class="value" id="totalInterest">0</span></div>
+                            <div class="result-item"><span class="label">本息總支付金額</span><span class="value" id="totalPayment">0</span></div>
+                        </div>
+                        <div class="table-container" id="amortization-schedule-container">
+                            <h4>還款明細表 (Amortization Schedule)</h4>
+                            <table>
+                                <thead><tr><th>期數</th><th>支付本金</th><th>支付利息</th><th>剩餘本金</th></tr></thead>
+                                <tbody id="amortizationTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card how-to-use" id="how-to-use" aria-labelledby="how-to-heading">
+                    <h2 id="how-to-heading">貸款試算四步驟</h2>
+                    <div class="steps-container">
+                        <div class="step-item">
+                            <div class="step-icon">1</div>
+                            <h4>輸入條件</h4>
+                            <p>填寫您的貸款總額、年利率與貸款年限。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">2</div>
+                            <h4>點擊試算</h4>
+                            <p>輸入完成後，點擊藍色的「開始試算」按鈕。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">3</div>
+                            <h4>查看摘要</h4>
+                            <p>立即獲取每月還款額與總利息等關鍵數據。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">4</div>
+                            <h4>檢視明細</h4>
+                            <p>向下滾動查看完整的還款攤還表，掌握每期細節。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- UX 佈局調整: 將快速導覽移至此處 -->
+                <div class="quick-nav">
+                    <h3>本頁快速導覽</h3>
+                    <ul>
+                        <li><a href="#how-to-use">計算機使用教學</a></li>
+                        <li><a href="#payment-method">還款方式說明</a></li>
+                        <li><a href="#loan-faq">常見問答 (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <section class="card" id="payment-method" aria-labelledby="payment-method-heading">
+                    <h2 id="payment-method-heading">還款方式說明：本息平均攤還法</h2>
+                    <p>本計算機採用台灣最常見的貸款償還方式——**「本息平均攤還法」（或稱本息定額攤還）**。這種方式的核心特點是，在整個貸款期間內，您**每個月的還款金額都是固定的**。</p>
+                    <p>雖然每月繳款金額不變，但其內部的組成會隨著時間改變：</p>
+                    <ul>
+                        <li><strong>還款初期：</strong> 每月還款中，支付「利息」的佔比較高，償還「本金」的佔比較低。</li>
+                        <li><strong>還款後期：</strong> 隨著本金逐漸減少，每月支付的「利息」會越來越少，而償還「本金」的佔比則會越來越高。</li>
+                    </ul>
+                    <p>這種方式有助於借款人進行財務規劃，因為每月的現金流出是可預測且固定的。</p>
+                </section>
+                
+                <section class="card" id="loan-faq" aria-labelledby="faq-heading">
+                    <h2 id="faq-heading">貸款常見問答 (FAQ)</h2>
+                    <div class="faq">
+                        <h4>1. 如何使用這個貸款計算機試算房貸？</h4>
+                        <p>假設您想申請一筆 **800萬**、利率 **2.2%**、期限 **30年** 的房屋貸款。只需在「貸款總額」輸入`8000000`，「貸款年利率」輸入`2.2`，「貸款期限」輸入`30`，然後點擊「開始試算」，即可得知每月房貸月付金與詳細還款計畫。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>2. 什麼是「攤還表」(Amortization Schedule)？</h4>
+                        <p>攤還表就是我們計算結果中提供的「還款明細表」。它詳細列出了您在每一期（通常是每個月）的還款中，有多少錢是用於償還**本金**，多少錢是支付**利息**，以及每期還款後剩餘的**貸款餘額**。這能幫助您清晰地掌握整個還款進程。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>3. 有沒有方法可以降低總利息支出？</h4>
+                        <p>有的。主要有三種方式：(1) 爭取更低的**貸款利率**；(2) 縮短**貸款期限**（例如從30年改為20年），雖然月付金會增加，但總利息會大幅減少；(3) 在有餘裕時進行**部分提前還款（大額還款）**，直接減少本金，後續的利息計算基礎也會隨之降低。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>4. 什麼是寬限期？這個計算器有包含嗎？</h4>
+                        <p>寬限期是指在貸款初期的一段時間內（通常為1-5年），借款人可以只繳利息、不還本金。這會讓初期的月付金非常低，但寬限期一過，月付金會大幅增加。**請注意：本計算器目前採用標準的無寬限期模式進行計算。**</p>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="main-right">
+                <div class="tool-recommend">
+                    <h3>其他財務工具</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>貸款知識</h4>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+           <div class="footer-links"><a href="privacy-policy.html">隱私權政策</a><a href="Terms-of-Service.html">服務條款</a><a href="Contact-Us.html">聯繫我們</a></div>
+            <p>© <span id="copyright-year"></span> 貸款計算器 - 您的專業財務規劃夥伴 | 本網站計算結果僅供參考</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const form = document.getElementById('loanForm');
+        
+        const toggleMenu = () => {
+            const isActive = hamburger.classList.toggle('active');
+            navLinks.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+
+        const formatNumber = (num) => num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+        if (form) {
+            const resultContainer = document.getElementById('result');
+            const amortizationTableBody = document.getElementById('amortizationTableBody');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+                const annualRate = parseFloat(document.getElementById('annualRate').value) / 100;
+                const loanTermYears = parseInt(document.getElementById('loanTerm').value, 10);
+
+                if (isNaN(loanAmount) || isNaN(annualRate) || isNaN(loanTermYears) || loanAmount <= 0 || annualRate < 0 || loanTermYears <= 0) {
+                    alert('請輸入有效的貸款數值。');
+                    return;
+                }
+
+                const monthlyRate = annualRate / 12;
+                const numberOfPayments = loanTermYears * 12;
+
+                if (monthlyRate === 0) { // 零利率情況
+                    monthlyPayment = loanAmount / numberOfPayments;
+                } else {
+                    monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+                }
+                
+                if (!isFinite(monthlyPayment)) {
+                    alert('無法計算，請檢查輸入的利率是否過高或期限是否正確。');
+                    return;
+                }
+                
+                const totalPayment = monthlyPayment * numberOfPayments;
+                const totalInterest = totalPayment - loanAmount;
+
+                document.getElementById('monthlyPayment').textContent = formatNumber(Math.round(monthlyPayment));
+                document.getElementById('totalInterest').textContent = formatNumber(Math.round(totalInterest));
+                document.getElementById('totalPayment').textContent = formatNumber(Math.round(totalPayment));
+                
+                amortizationTableBody.innerHTML = '';
+                let remainingBalance = loanAmount;
+                for (let i = 1; i <= numberOfPayments; i++) {
+                    const interestForMonth = remainingBalance * monthlyRate;
+                    const principalForMonth = monthlyPayment - interestForMonth;
+                    remainingBalance -= principalForMonth;
+                    
+                    // === 功能優化: 修正最後一期的浮點數誤差 ===
+                    if (i === numberOfPayments || remainingBalance < 1) {
+                        remainingBalance = 0;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${i}</td><td>${formatNumber(Math.round(principalForMonth))}</td><td>${formatNumber(Math.round(interestForMonth))}</td><td>${formatNumber(Math.round(remainingBalance))}</td>`;
+                    amortizationTableBody.appendChild(row);
+                }
+                resultContainer.style.display = 'block';
+            });
+
+            form.querySelector('button[type="reset"]').addEventListener('click', function() {
+                form.reset();
+                resultContainer.style.display = 'none';
+                amortizationTableBody.innerHTML = '';
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    if (navLinks.classList.contains('show')) toggleMenu();
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // --- 功能優化: 動態設定頁腳年份 ---
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    });
+    </script>
+</body>
+</html>

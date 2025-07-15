@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>債券試算｜債券殖利率計算機｜線上試算YTM與債券價格</title>
+    <meta name="description" content="免費的線上債券計算機，輸入債券面額、票面利率、市場價格與到期日，即可精準試算最重要的指標——到期殖利率(YTM)與當期殖利率，是您進行固定收益投資的專業工具。" />
+    <meta name="keywords" content="債券計算機, 債券殖利率計算, 到期殖利率, YTM, 債券價格, 固定收益, 票面利率, 當期殖利率, 債券投資, 利息計算" />
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #8e44ad; /* 為債券選擇一個穩重的紫色 */
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-layout-container { flex: 1; }
+        nav { width: 100%; background: var(--primary-color); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 60px; flex-wrap: nowrap; }
+        .nav-title { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 2rem; font-size: 1.1rem; list-style: none; margin: 0; padding: 0; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        .menu-overlay.show { display: block; opacity: 1; }
+        h1, h2, h3, h4 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+        .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 0; }
+        .main-right { flex: 1; min-width: 220px; position: sticky; top: calc(60px + 2rem); }
+        .card, .calculator-highlight { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav { background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; margin-bottom: 1.5rem; }
+        .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin: 0 0 0.7rem 0; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+        .tool-recommend, .news-feed { margin-bottom: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: var(--text-color-dark); margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item a, .news-item a { font-weight: 600; text-decoration: none; }
+        .tool-item a { color: #2980b9; }
+        .news-item a { color: var(--text-color-dark); }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        .case, .faq { border-left: 4px solid var(--primary-color); }
+        footer { background: #34495e; color: #ecf0f1; padding: 2rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: #495057; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; transition: all 0.2s ease; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .input-wrapper .input-unit { position: absolute; right: 12px; color: #888; pointer-events: none; }
+        .button-group { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .button-group button { margin: 0; padding: 0.8rem 1rem; font-weight: 600; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s ease; }
+        .button-group button[type="submit"] { background: var(--primary-color); color: #fff; }
+        .button-group button[type="submit"]:hover { background: var(--primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .button-group button[type="reset"] { background: #f1f3f5; color: #868e96; border: 1px solid #dee2e6; }
+        .button-group button[type="reset"]:hover { background: #e9ecef; }
+        #result { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid var(--secondary-color); padding: 1.5rem; margin-top: 2.5rem; }
+        #result h3 { margin-top: 0; }
+        .result-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center; margin: 1.5rem 0; }
+        .result-item { background: var(--card-background); padding: 1.25rem 1rem; border-radius: var(--border-radius-md); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .result-item .label { display: block; font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem; }
+        .result-item .value { font-size: 1.75rem; font-weight: 700; color: var(--text-color-dark); }
+        
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-links { position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50; flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem; gap: 1.5rem; z-index: 999; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .nav-links.show { transform: translateX(0); }
+            .nav-links a { font-size: 1.2rem; width: 100%; }
+            .main-layout { flex-direction: column; padding: 0 1rem; gap: 0; }
+            .main-right { position: static; width: 100%; order: 4; }
+            .calculator-highlight { order: 1; }
+            .main-left { order: 2; min-width: unset; width: 100%; }
+            .form-grid, .button-group, .result-summary { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">債券計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <div class="nav-links" id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="calculator-highlight">
+                    <h1>債券計算機</h1>
+                    <p>債券計算機可以幫您計算您手中債券的收益率。本工具能幫助您根據債券的市場價格、面額與票面利率，計算出最重要的投資回報指標——**到期殖利率 (Yield to Maturity, YTM)**。</p>
+                    <form id="bondForm">
+                        <div class="form-grid">
+                            <div class="form-group"><label for="parValue">債券面額 (Face Value)</label><div class="input-wrapper"><input type="number" id="parValue" value="1000" min="0" required><span class="input-unit">元</span></div></div>
+                            <div class="form-group"><label for="currentPrice">目前市價 (Current Price)</label><div class="input-wrapper"><input type="number" id="currentPrice" value="980" min="0" required><span class="input-unit">元</span></div></div>
+                            <div class="form-group"><label for="couponRate">票面利率 (Coupon Rate)</label><div class="input-wrapper"><input type="number" id="couponRate" value="5" min="0" required><span class="input-unit">%</span></div></div>
+                            <div class="form-group"><label for="yearsToMaturity">到期年限 (Years)</label><div class="input-wrapper"><input type="number" id="yearsToMaturity" value="10" min="0.1" step="0.1" required><span class="input-unit">年</span></div></div>
+                        </div>
+                         <div class="form-grid">
+                             <div class="form-group"><label for="couponFrequency">付息頻率 (每年)</label><select id="couponFrequency" required><option value="2" selected>半年一次</option><option value="1">每年一次</option><option value="4">每季一次</option></select></div>
+                        </div>
+                        <div class="button-group"><button type="submit">計算殖利率</button><button type="reset">清除重填</button></div>
+                    </form>
+                    <div id="result" style="display:none;">
+                        <h3>債券收益分析</h3>
+                        <div class="result-summary">
+                            <div class="result-item"><span class="label">到期殖利率 (YTM)</span><span class="value" id="ytm">0 %</span></div>
+                            <div class="result-item"><span class="label">當期殖利率</span><span class="value" id="currentYield">0 %</span></div>
+                            <div class="result-item"><span class="label">持有至到期總利息</span><span class="value" id="totalInterest">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quick-nav">
+                    <ul>
+                        <li><a href="#yield-metrics">收益率指標</a></li>
+                        <li><a href="#bond-pricing">定價原理</a></li>
+                        <li><a href="#bond-faq">常見問答</a></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2 id="yield-metrics">關鍵收益率指標解析</h2>
+                    <p>在評估債券時，您會遇到幾個不同的「利率」，理解它們的差異至關重要：</p>
+                    <ul>
+                        <li><strong>票面利率 (Coupon Rate):</strong> 這是債券發行時就固定的利率，決定了您每年能收到多少固定的「票息」（利息）。它只與「債券面額」有關，與您的買入價格無關。</li>
+                        <li><strong>當期殖利率 (Current Yield):</strong> 這是您一年的票息收入，相對於您「買入市價」的比例。它反映了當下的現金回報，但**忽略了未來到期時的價差損益**。</li>
+                        <li><strong>到期殖利率 (Yield to Maturity, YTM):</strong> 這是**最重要的指標**。它綜合考慮了您未來所有能收到的利息、到期時拿回的本金，以及您當初買入的價格，計算出如果您持有該債券至到期，所能獲得的「年化內部報酬率」。</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h2 id="bond-pricing">債券定價原理：價格與利率的反向關係</h2>
+                    <p>債券投資有一個黃金法則：**市場利率與債券價格呈反向關係**。</p>
+                    <ul>
+                        <li>當市場利率**上升**時，新發行的債券會提供更高的票面利率，這使得您手中票面利率較低的舊債券吸引力下降，其市場價格便會**下跌**。</li>
+                        <li>當市場利率**下降**時，您手中票面利率較高的舊債券變得更有價值，其市場價格便會**上漲**。</li>
+                    </ul>
+                    <p>這種關係解釋了為什麼即使債券被視為「固定收益」產品，其市場價格仍然會波動。</p>
+                </div>
+           
+                <div class="card">
+                    <h2 id="bond-faq">債券投資常見問答 (FAQ)</h2>
+                    <div class="faq">
+                        <h4>1. YTM 就是我最終能獲得的實際回報率嗎？</h4>
+                        <p>YTM 是假設您「持有債券至到期」且「將收到的所有利息都以YTM的利率再投資」才能實現的理論回報率。在現實中，由於再投資利率會變動，實際回報可能會略有差異，但YTM仍是目前評估債券回報最標準、最重要的參考指標。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>2. 什麼是「折價債券」和「溢價債券」？</h4>
+                        <p>當債券的**市價低於面額**時，稱為「折價債券」，此時其YTM會高於票面利率。反之，當**市價高於面額**時，稱為「溢價債券」，其YTM會低於票面利率。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>3. 這個計算機適用於零息債券嗎？</h4>
+                        <p>可以。對於零息債券（Zero-coupon Bond），您只需在「票面利率」欄位輸入 0 即可。計算機將根據您的買入價格、面額和到期年限，計算出其隱含的到期殖利率。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>4. 計算出的 YTM 是近似值還是精確值？</h4>
+                        <p>由於到期殖利率 (YTM) 的精確公式沒有代數解，必須使用迭代法（如牛頓法）或財務計算機來逼近。本計算機採用了高精度的**數值逼近算法**來找到一個非常接近真實值的YTM，其誤差在實際應用中可以忽略不計。</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="main-right">
+
+                <div class="tool-recommend">
+                    <h3>相關投資工具</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>理財知識</h3>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 債券殖利率計算機 - 您的專業固定收益分析工具 | 本網站計算結果僅供參考</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 互動元件選擇 ---
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const form = document.getElementById('bondForm');
+        
+        // --- 手機版選單功能 ---
+        const toggleMenu = () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+
+        // --- 債券計算機功能 ---
+        if (form) {
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const parValue = parseFloat(document.getElementById('parValue').value);
+                const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+                const couponRate = parseFloat(document.getElementById('couponRate').value) / 100;
+                const yearsToMaturity = parseFloat(document.getElementById('yearsToMaturity').value);
+                const freq = parseInt(document.getElementById('couponFrequency').value, 10);
+
+                if (isNaN(parValue) || isNaN(currentPrice) || isNaN(couponRate) || isNaN(yearsToMaturity) || parValue <= 0 || currentPrice <= 0 || couponRate < 0 || yearsToMaturity <= 0) {
+                    alert('請輸入有效的債券數值。');
+                    return;
+                }
+
+                // 1. 計算當期殖利率 (Current Yield)
+                const annualCouponPayment = parValue * couponRate;
+                const currentYield = (annualCouponPayment / currentPrice);
+
+                // 2. 計算總利息收入
+                const totalInterest = annualCouponPayment * yearsToMaturity;
+
+                // 3. 計算到期殖利率 (YTM) - 使用數值逼近法
+                const ytm = calculateYTM(currentPrice, parValue, couponRate, yearsToMaturity, freq);
+
+                // 更新結果顯示
+                document.getElementById('ytm').textContent = (ytm * 100).toFixed(4) + ' %';
+                document.getElementById('currentYield').textContent = (currentYield * 100).toFixed(4) + ' %';
+                document.getElementById('totalInterest').textContent = totalInterest.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                
+                resultContainer.style.display = 'block';
+            });
+
+            form.querySelector('button[type="reset"]').addEventListener('click', function() {
+                form.reset();
+                resultContainer.style.display = 'none';
+            });
+        }
+        
+        // YTM 數值逼近算法 (牛頓法或二分法簡化版)
+        function calculateYTM(price, par, coupon, years, freq) {
+            const periods = years * freq;
+            const couponPayment = (par * coupon) / freq;
+            
+            let low = -0.99; // 允許負利率
+            let high = 5.0; // 假設最高500%
+            let ytm_approx = 0.5; // 初始猜測值
+
+            for(let i=0; i < 100; i++) { // 迭代100次以求得高精度
+                ytm_approx = (low + high) / 2;
+                if(ytm_approx === 0) ytm_approx = 0.00000001; // 避免除以零
+
+                let calculatedPrice = 0;
+                // 折現所有利息
+                for(let t=1; t<=periods; t++) {
+                    calculatedPrice += couponPayment / Math.pow(1 + ytm_approx, t);
+                }
+                // 折現面值
+                calculatedPrice += par / Math.pow(1 + ytm_approx, periods);
+
+                if (calculatedPrice > price) {
+                    low = ytm_approx;
+                } else {
+                    high = ytm_approx;
+                }
+                if(Math.abs(low-high) < 0.0000001) break; // 當精度足夠高時跳出
+            }
+            return ytm_approx * freq; // 返回年化YTM
+        }
+
+        // --- 平滑滾動功能 ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    if (navLinks.classList.contains('show')) toggleMenu();
+                    
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

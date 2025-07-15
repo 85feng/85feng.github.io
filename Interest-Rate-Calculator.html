@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>複利率計算機 2025 | 線上反推年化報酬率，精算目標達成所需利率</title>
+    <meta name="description" content="2025 最新複利率計算機！輸入本金、目標金額與投資年限，即可精準反推出達成目標所需的年化報酬率。了解利率計算公式，評估投資績效，規劃您的財富增長路徑。" />
+
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #2ecc71;
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-layout-container { flex: 1; }
+        nav { width: 100%; background: var(--primary-color); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 60px; flex-wrap: nowrap; }
+        .nav-title { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 2rem; font-size: 1.1rem; list-style: none; margin: 0; padding: 0; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        .menu-overlay.show { display: block; opacity: 1; }
+        h1, h2, h3, h4 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+        .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 0; }
+        .main-right { flex: 1; min-width: 220px; position: sticky; top: calc(60px + 2rem); }
+        .card, .calculator-highlight { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav { background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; margin-bottom: 1.5rem; }
+        .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin: 0 0 0.7rem 0; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+        .tool-recommend, .news-feed { margin-bottom: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: var(--text-color-dark); margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item a, .news-item a { font-weight: 600; text-decoration: none; }
+        .tool-item a { color: #2980b9; }
+        .news-item a { color: var(--text-color-dark); }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        .case, .faq { border-left: 4px solid var(--primary-color); }
+        footer { background: #34495e; color: #ecf0f1; padding: 2rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: #495057; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; transition: all 0.2s ease; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .button-group { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .button-group button { margin: 0; padding: 0.8rem 1rem; font-weight: 600; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s ease; }
+        .button-group button[type="submit"] { background: var(--primary-color); color: #fff; }
+        .button-group button[type="submit"]:hover { background: var(--primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .button-group button[type="reset"] { background: #f1f3f5; color: #868e96; border: 1px solid #dee2e6; }
+        .button-group button[type="reset"]:hover { background: #e9ecef; }
+        #result { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid var(--secondary-color); padding: 1.5rem; margin-top: 2.5rem; }
+        #result h3 { margin-top: 0; }
+        .result .summary-value { font-size: 2rem; font-weight: 800; color: var(--text-color-dark); margin: 0.5rem 0; }
+        .result .summary-label { font-size: 1rem; color: #6c757d; margin-bottom: 1rem; }
+        .side-info { background: #eaf6fb; border-radius: 8px; padding: 1rem; font-size: 0.98rem; color: #2d5a7a; }
+
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-links { position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50; flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem; gap: 1.5rem; z-index: 999; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .nav-links.show { transform: translateX(0); }
+            .nav-links a { font-size: 1.2rem; width: 100%; }
+            .main-layout { flex-direction: column; padding: 0 1rem; gap: 0; }
+            .main-right { position: static; width: 100%; order: 4; }
+            .calculator-highlight { order: 1; }
+            .main-left { order: 2; min-width: unset; width: 100%; }
+            .form-grid, .button-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">複利率計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <div class="nav-links" id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="calculator-highlight">
+                    <h1>複利率計算機 (反推報酬率)</h1>
+                    <p>複利率計算機簡單易用，只要輸入您的初始資金、財務目標與投資時間，即可反推出需要達成的「年化報酬率」，幫助您評估投資計畫的可行性。</p>
+                    <form id="rateForm">
+                        <div class="form-grid">
+                            <div class="form-group"><label for="principal">初始本金</label><div class="input-wrapper"><input type="number" id="principal" value="100000" min="0" step="1000" required></div></div>
+                            <div class="form-group"><label for="finalAmount">最終目標金額</label><div class="input-wrapper"><input type="number" id="finalAmount" value="200000" min="0" step="1000" required></div></div>
+                            <div class="form-group"><label for="years">投資期限</label><div class="input-wrapper"><input type="number" id="years" value="10" min="1" step="1" required></div></div>
+                            <div class="form-group"><label for="freq">計息頻率</label><select id="freq" required><option value="1">每年</option><option value="4">每季</option><option value="12">每月</option></select></div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit">計算所需利率</button>
+                            <button type="reset">重設</button>
+                        </div>
+                    </form>
+                    <div class="result" id="result" style="display: none;">
+                        <h3>計算結果</h3>
+                        <p class="summary-label">為達成目標，您需要的年化報酬率為：</p>
+                        <p class="summary-value" id="requiredRate">0 %</p>
+                        <p id="result-message" style="font-size:0.9rem; color:#555;"></p>
+                    </div>
+                </div>     <div class="quick-nav">
+                            <ul>
+                        <li><a href="#concept-title">用途說明</a></li>
+                        <li><a href="#usage-title">使用步驟</a></li>
+                        <li><a href="#rate-formula">計算公式</a></li>
+                        <li><a href="#rate-cases">案例分析</a></li>
+                        <li><a href="#compound-interest-faq">常見問答</a></li>
+                    </ul>     </div>
+                <div class="card">
+                    <h2 id="concept-title">什麼是複利率計算？用途說明</h2>
+                    <p>複利率計算機（或稱年化報酬率反推計算機）是一個強大的財務規劃工具。它與一般的複利計算機功能相反：您不是輸入利率來計算未來價值，而是**輸入初始本金、期望達成的最終金額以及投資年限，來反推出您需要達成的「年化報酬率」**。</p>
+                    <h3>📌 主要用途：</h3>
+                    <ul>
+                        <li><strong>目標設定：</strong> 幫助您了解為了達成財務目標（如退休金、購屋款），您的投資組合需要達到多高的年化報酬率。</li>
+                        <li><strong>績效評估：</strong> 您可以輸入一項投資的初始成本和當前價值，來計算這段時間內的實際年化報酬率，以評估其表現。</li>
+                        <li><strong>可行性分析：</strong> 透過計算出的目標利率，您可以判斷該目標是否切合實際，並據此調整您的投資策略或儲蓄計畫。</li>
+                    </ul>
+                </div>
+    
+                <div class="card">
+                    <section aria-labelledby="usage-title">
+                        <h2 id="usage-title">線上複利率計算機使用步驟</h2>
+                        <ol>
+                            <li><strong>輸入初始本金</strong>：您開始投資的金額。</li>
+                            <li><strong>輸入最終目標金額</strong>：您希望在投資期滿後達到的總金額。</li>
+                            <li><strong>輸入投資期限</strong>：您計畫投資的總年數。</li>
+                            <li><strong>選擇計息頻率</strong>：選擇利率複利計算的頻率，例如每年、每季或每月。</li>
+                            <li><strong>點擊計算按鈕</strong>：輸入完畢後，點擊「計算所需利率」，系統將立即顯示您需要達成的年化報酬率。</li>
+                        </ol>
+                    </section>
+                    <div class="side-info">
+                        <strong>注意事項：</strong>計算結果為理論上的目標年化報酬率。實際投資收益受市場波動影響，無法保證。此工具應用於規劃與評估，而非投資預測。
+                    </div>
+                </div>
+    
+                <div class="card">
+                    <section aria-labelledby="rate-formula">
+                        <h2 id="rate-formula">複利率計算公式 (反推年利率)</h2>
+                        <p>當我們已知本金(PV)、終值(FV)和期數(n)時，可以透過複利公式的代數變換來反推出每期利率(r)。</p>
+                        <p>原始複利公式為：<code>FV = PV * (1 + r)^n</code></p>
+                        <p>為了求得利率 <code>r</code>，我們將公式重新整理：</p>
+                        <pre>r = (FV / PV)^(1/n) - 1</pre>
+                        <h4>公式參數詳解</h4>
+                        <ul>
+                            <li><strong>r</strong>：每期利率。這是計算機首先求出的數值。</li>
+                            <li><strong>FV</strong>：最終金額 (Future Value)。</li>
+                            <li><strong>PV</strong>：初始本金 (Present Value)。</li>
+                            <li><strong>n</strong>：總期數。它等於「投資年限」乘以「每年的計息次數」。</li>
+                        </ul>
+                        <p><strong>計算年利率：</strong> 計算機得出的 <code>r</code> 是基於計息頻率的「每期利率」。為了得到「年利率」，我們需要將其乘以每年的計息次數。例如，如果選擇每月計息，計算機會將算出的月利率乘以 12，得到最終的年化報酬率。</p>
+                    </section>
+                </div>
+
+                <div class="card">
+                    <section id="rate-cases">
+                        <h2>複利率計算真實案例分析</h2>
+                        <div class="case">
+                            <h3>案例一：規劃退休金</h3>
+                            <p>王先生今年40歲，目前有 200 萬存款，希望在65歲退休時能累積到 1,000 萬。他想知道未來25年，他的投資組合需要達到多少的年化報酬率？<br><strong>輸入：</strong> 本金=200萬, 目標=1000萬, 年限=25年, 頻率=每年。<br><strong>計算結果：</strong> 他需要達成約 <strong>6.65%</strong> 的年化報酬率。</p>
+                        </div>
+                        <div class="case">
+                            <h3>案例二：準備購屋頭期款</h3>
+                            <p>李小姐手頭有 50 萬元，計畫在 8 年後購買房屋，屆時需要 150 萬元的頭期款。她需要尋找年化報酬率多高的投資工具？<br><strong>輸入：</strong> 本金=50萬, 目標=150萬, 年限=8年, 頻率=每年。<br><strong>計算結果：</strong> 她需要找到能提供約 <strong>14.72%</strong> 年化報酬率的投資標的。這個利率較高，可能需要承擔更高風險。</p>
+                        </div>
+                        <div class="case">
+                            <h3>案例三：評估投資產品績效</h3>
+                            <p>張先生 5 年前投資了 30 萬元於一檔基金，現在該基金價值 50 萬元。他想知道這筆投資的實際年化報酬率是多少？<br><strong>輸入：</strong> 本金=30萬, 目標=50萬, 年限=5年, 頻率=每年。<br><strong>計算結果：</strong> 這檔基金在這5年內的年化報酬率約為 <strong>10.76%</strong>。</p>
+                        </div>
+                    </section>
+                </div>
+    
+                <div class="card">
+                    <section id="compound-interest-faq">
+                        <h2>複利率計算常見問答（FAQ）</h2>
+                        <div class="faq">
+                            <h4>1. 如何使用此計算機反推年利率？</h4>
+                            <p>您只需輸入「初始本金」、「最終目標金額」、「投資期限（年）」和「計息頻率」，然後點擊計算按鈕，即可得到達成目標所需的「年化報酬率」。</p>
+                        </div>
+                        <div class="faq">
+                            <h4>2. 這個計算機的主要用途是什麼？</h4>
+                            <p>它主要用於財務目標規劃與投資績效評估。您可以設定一個財務目標（如退休金），計算出需要多高的報酬率才能達成；或者，您也可以評估一項既有投資的真實年化報酬率。</p>
+                        </div>
+                        <div class="faq">
+                            <h4>3. 計算出的年化報酬率是保證可以達成的嗎？</h4>
+                            <p>不是。計算結果是一個基於數學公式的「目標利率」。實際的投資市場充滿變數，過去的績效不代表未來表現。這個數字應作為您尋找投資標的時的參考基準，而非收益保證。</p>
+                        </div>
+                        <div class="faq">
+                            <h4>4. 如果最終目標金額小於初始本金會怎麼樣？</h4>
+                            <p>計算機會計算出一個負的年化報酬率，這表示您的投資在該期間內是處於虧損狀態。這個功能可以用來計算投資的年化虧損率。</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+    
+            <aside class="main-right">
+             
+                <div class="tool-recommend">
+                    <h3>相關理財工具</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>理財知識</h3>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 複利率計算機 - 專業理財規劃工具 | 本網站僅供教育參考，不構成投資建議</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 漢堡選單互動 ---
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+            const overlay = document.querySelector('.menu-overlay'); // 使用 class selector
+            
+            const toggleMenu = () => {
+                hamburger.classList.toggle('active'); // 更改為 'active' 以匹配 CSS
+                navLinks.classList.toggle('show'); // 更改為 'show' 以匹配 CSS
+                if (overlay) overlay.classList.toggle('show');
+            };
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+                if (overlay) overlay.addEventListener('click', toggleMenu);
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => { if (navLinks.classList.contains('show')) toggleMenu(); });
+                });
+            }
+
+            // --- 計算機功能 ---
+            const form = document.getElementById('rateForm');
+            if (form) {
+                const resultContainer = document.getElementById('result');
+                const requiredRateEl = document.getElementById('requiredRate');
+                const resultMessageEl = document.getElementById('result-message');
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const principal = parseFloat(document.getElementById('principal').value);
+                    const finalAmount = parseFloat(document.getElementById('finalAmount').value);
+                    const years = parseFloat(document.getElementById('years').value);
+                    const freq = parseInt(document.getElementById('freq').value, 10);
+
+                    if (isNaN(principal) || isNaN(finalAmount) || isNaN(years) || principal <= 0 || years <= 0) {
+                        resultMessageEl.textContent = '請輸入大於零的有效數值。';
+                        requiredRateEl.textContent = '計算錯誤';
+                        resultContainer.style.display = 'block';
+                        return;
+                    }
+    
+                    resultMessageEl.textContent = (finalAmount < principal) 
+                        ? '提示：目標金額小於本金，計算結果將為負報酬率。' 
+                        : '';
+    
+                    const totalPeriods = years * freq;
+                    const periodicRate = Math.pow(finalAmount / principal, 1 / totalPeriods) - 1;
+                    const annualRate = periodicRate * freq;
+    
+                    requiredRateEl.textContent = (annualRate * 100).toFixed(2) + ' %';
+                    resultContainer.style.display = 'block';
+                });
+    
+                form.querySelector('button[type="reset"]').addEventListener('click', function() {
+                    form.reset();
+                    if (resultContainer) resultContainer.style.display = 'none';
+                });
+            }
+
+            // --- 頁內平滑滾動 ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        if (navLinks && navLinks.classList.contains('show')) toggleMenu();
+                        
+                        const navHeight = document.querySelector('nav').offsetHeight;
+                        const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <script type="application/ld+json">{
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "複利率計算機 2025 | 線上反推年化報酬率，精算目標達成所需利率",
+      "description": "2025 最新複利率計算機！輸入本金、目標金額與投資年限，即可精準反推出達成目標所需的年化報酬率。了解利率計算公式，評估投資績效，規劃您的財富增長路徑。",
+      "url": "YOUR_PAGE_URL",
+      "mainEntity": [
+        {
+          "@type": "Calculator",
+          "name": "複利率計算機 (年化報酬率反推)",
+          "description": "輸入初始本金、最終目標金額與投資年限，反推出達成目標所需的年化報酬率。",
+          "url": "YOUR_PAGE_URL#rateForm",
+          "applicationCategory": "FinanceApplication",
+          "potentialAction": {
+            "@type": "CalculateAction",
+            "name": "計算所需利率",
+            "query-input": ["required name=principal", "required name=finalAmount", "required name=years", "required name=freq"]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "如何使用此計算機反推年利率？", "acceptedAnswer": { "@type": "Answer", "text": "您只需輸入「初始本金」、「最終目標金額」、「投資期限（年）」和「計息頻率」，然後點擊計算按鈕，即可得到達成目標所需的「年化報酬率」。" }},
+            { "@type": "Question", "name": "這個計算機的主要用途是什麼？", "acceptedAnswer": { "@type": "Answer", "text": "它主要用於財務目標規劃與投資績效評估。您可以設定一個財務目標（如退休金），計算出需要多高的報酬率才能達成；或者，您也可以評估一項既有投資的真實年化報酬率。" }},
+            { "@type": "Question", "name": "計算出的年化報酬率是保證可以達成的嗎？", "acceptedAnswer": { "@type": "Answer", "text": "不是。計算結果是一個基於數學公式的「目標利率」。實際的投資市場充滿變數，過去的績效不代表未來表現。這個數字應作為您尋找投資標的時的參考基準，而非收益保證。" }},
+            { "@type": "Question", "name": "如果最終目標金額小於初始本金會怎麼樣？", "acceptedAnswer": { "@type": "Answer", "text": "計算機會計算出一個負的年化報酬率，這表示您的投資在該期間內是處於虧損狀態。這個功能可以用來計算投資的年化虧損率。" }}
+          ]
+        }
+      ]
+    }</script>
+</body>
+</html>

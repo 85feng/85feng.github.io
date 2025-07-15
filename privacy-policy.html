@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>隱私權政策 2025 | 複利計算機網站個人資料保護聲明</title>
+    <meta name="description" content="了解 2025 複利計算機網站的隱私權政策。本頁說明本站如何收集、使用、保護您的個人資料，以及Cookies政策，確保您的資訊安全與隱私權益。" />
+    <meta name="keywords" content="隱私權政策, 個人資料保護, 資料收集, Cookies, 隱私聲明, 複利計算機, 網站隱私, 資訊安全" />
+    <style>
+    /* ======== 基礎樣式 (已修正溢位問題) ======== */
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .main-layout-container {
+        flex: 1; 
+    }
+
+    /* ======== 導航列樣式 ======== */
+    nav {
+        width: 100%;
+        background: #3498db;
+        color: #fff;
+        font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+        box-sizing: border-box;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav > .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.7rem 1.5rem;
+        flex-wrap: nowrap;
+    }
+    .nav-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+    #nav-links {
+        display: flex;
+        gap: 2rem;
+        font-size: 1.1rem;
+        flex-wrap: wrap;
+    }
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    nav a:hover {
+        color: #e0e0e0;
+    }
+
+    /* ======== 漢堡選單樣式 ======== */
+    .hamburger-menu {
+        display: none;
+        width: 30px;
+        height: 22px;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        z-index: 1002;
+    }
+    .hamburger-menu .bar {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #fff;
+        border-radius: 3px;
+        transition: all 0.3s ease-in-out;
+    }
+    .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger-menu.active .bar2 { opacity: 0; }
+    .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+
+    /* ======== 遮罩層樣式 ======== */
+    #menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    #menu-overlay.show {
+        display: block;
+        opacity: 1;
+    }
+
+    /* ======== 其餘頁面樣式 ======== */
+    h1, h2, h3 { color: #2c3e50; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+    p { margin-bottom: 1rem; }
+    ul { padding-left: 20px; }
+    hr { border: 0; height: 1px; background: #eee; margin: 2rem 0; }
+    .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+    .main-left { flex: 2; min-width: 320px; }
+    .main-right { flex: 1; min-width: 220px; background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; position: sticky; top: calc(2rem + 60px); height: fit-content; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+    .quick-nav { margin-bottom: 2.5rem; }
+    .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin-bottom: 0.7rem; }
+    .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+    .quick-nav li { margin-bottom: 0.7rem; }
+    .quick-nav a { color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+    .tool-recommend { margin-top: 2rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .tool-recommend h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .tool-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+    .tool-item:last-child { border-bottom: none; }
+    .news-feed { margin-top: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .news-feed h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+    .news-item:last-child { border-bottom: none; }
+    
+    footer { background: #3498db; color: white; padding: 1.5rem; text-align: center; font-size: 1rem; margin-top: auto; width: 100%; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); }
+    .footer-copyright, .footer-links { text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+    .footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+    .footer-links a:hover { color: white; text-decoration: underline; }
+
+    /* ======== 響應式佈局 ======== */
+    @media (max-width: 900px) {
+        /* 手機版導航列 */
+        .hamburger-menu { display: flex; }
+        #nav-links {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #2c3e50;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 6rem 2rem 2rem 2rem;
+            gap: 1.5rem;
+            z-index: 999;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+        }
+        #nav-links.show { transform: translateX(0); }
+        #nav-links a { font-size: 1.2rem; width: 100%; }
+        
+        /* 主佈局 */
+        .main-layout { flex-direction: column; padding: 0 0.5rem; gap: 0; }
+        
+        /* 【已補回】移动端区块顺序 */
+        .quick-nav {
+            order: 1; /* 快捷導航最先顯示 */
+            background: #f4f8fb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0 2rem 0;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+        }
+        .main-left { 
+            order: 2; /* 主要內容其次 */
+            min-width: unset; 
+        }
+        .tool-recommend { 
+            order: 3; /* 工具推薦再次 */
+            margin-top: 1.5rem;
+        }
+        .news-feed { 
+            order: 4; /* 複利資訊最後 */
+            margin: 1.5rem 0 3rem 0;
+        }
+        
+        /* 右侧边栏改造 */
+        .main-right {
+            position: static;
+            width: 100%;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            display: contents; /* 讓其子元素成為 flex 容器的直接子項，以便 order 生效 */
+        }
+        
+        /* 統一卡片寬度 */
+        .card, .quick-nav, .tool-recommend, .news-feed {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+    }
+    @media (max-width: 600px) {
+        h1 { font-size: 2rem; }
+        .main-layout { margin-top: 1rem; }
+        .card { padding: 1.5rem 1rem; }
+        footer { padding: 1rem; font-size: 0.9rem; }
+        .footer-links { flex-direction: column; gap: 0.8rem; }
+    }
+    </style>
+</head>
+<body>
+    <!-- 導航列 HTML -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">複利計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span>
+                <span class="bar bar2"></span>
+                <span class="bar bar3"></span>
+            </div>
+            <div id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 遮罩層 -->
+    <div id="menu-overlay"></div>
+
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="card">
+                    <main>
+                        <article>
+                            <section id="intro">
+                                <h1>隱私權政策</h1>
+                                <p>「複利計算機」網站（以下簡稱「本網站」）承諾保護您的個人隱私。本隱私權政策說明了本網站如何收集、使用、披露及保護您的個人資料，以及您對這些資料所擁有的權利。請在使用本網站服務前仔細閱讀本政策。</p>
+                                <p>本隱私權政策最後更新日期：2025年6月12日</p>
+                            </section>
+    
+                            <section style="text-align: center; padding: 30px; margin: 40px 0; background: linear-gradient(135deg, #2E7D32, #4CAF50); border-radius: 10px; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                <h2 style="font-size: 1.8em; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); color: white;">🚀 立即計算您的複利收益！</h2>
+                                <p style="font-size: 1.1em; margin-bottom: 25px;">無需複雜計算，一鍵取得精確結果</p>
+                                <a href="/compound-interest-calculator" style="display: inline-block; background-color: #FFC107; color: #333; padding: 12px 30px; font-size: 1.1em; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+                                    前往複利計算機
+                                </a>
+                                <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.9;">輸入本金、利率與期限，即可預測財富成長</p>
+                            </section>
+    
+                            <section id="data-collection">
+                                <h2>一、資料的收集與使用</h2>
+                                <p>本網站主要為提供線上金融計算工具與相關資訊，我們極少主動收集您的個人身份識別資料。在某些情況下，我們可能會收集以下非個人識別資訊或有限的個人資料：</p>
+                                <ul>
+                                    <li><strong>使用數據：</strong> 當您訪問本網站時，我們可能會自動收集某些非個人識別資訊，例如您的IP位址、瀏覽器類型、操作系統、訪問時間、瀏覽頁面、來源網站等。這些數據用於分析網站流量、改善服務品質及優化使用者體驗，不會與您的個人身份相關聯。</li>
+                                </ul>
+                                <p>我們承諾不會將您的個人資料出售、出租或洩露給第三方，除非獲得您的明確同意或法律要求。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="data-protection">
+                                <h2>二、資料安全</h2>
+                                <p>本網站採取合理的安全措施來保護您提供的資料，防止未經授權的訪問、使用、修改或洩露。然而，互聯網上的資料傳輸並非百分之百安全，我們無法保證絕對的安全。您理解並同意承擔此潛在風險。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="third-party-links">
+                                <h2>三、第三方連結</h2>
+                                <p>本網站可能包含指向第三方網站的連結。這些第三方網站有其獨立的隱私權政策，本網站對其內容或隱私措施不承擔任何責任。建議您在訪問這些網站時，仔細閱讀其隱私權政策。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="children-privacy">
+                                <h2>四、兒童隱私</h2>
+                                <p>本網站不針對未滿 13 歲的兒童。我們不會故意收集來自兒童的個人身份識別資訊。如果您是家長或監護人，並且認為您的孩子向我們提供了個人資料，請聯繫我們，我們將採取措施刪除這些資訊。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="your-rights">
+                                <h2>五、您的權利</h2>
+                                <p>根據適用法律，您可能擁有以下關於您個人資料的權利：</p>
+                                <ul>
+                                    <li><strong>訪問權：</strong> 查詢我們是否持有您的個人資料，並要求獲取副本。</li>
+                                    <li><strong>更正權：</strong> 要求更正不準確或不完整的個人資料。</li>
+                                    <li><strong>刪除權：</strong> 在特定情況下，要求刪除您的個人資料（例如，資料已不再需要）。</li>
+                                    <li><strong>限制處理權：</strong> 在特定情況下，要求限制我們處理您的個人資料。</li>
+                                    <li><strong>資料可攜權：</strong> 在特定情況下，以常用且機器可讀的格式接收您提供的個人資料。</li>
+                                    <li><strong>反對權：</strong> 在特定情況下，反對我們處理您的個人資料。</li>
+                                </ul>
+                                <p>如需行使您的權利，請透過本政策末尾的聯繫方式與我們聯絡。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="policy-changes">
+                                <h2>六、隱私權政策的變更</h2>
+                                <p>本網站保留隨時修改本隱私權政策的權利。任何變更將在本頁面發布後生效。建議您定期查閱本政策，以了解我們的隱私保護措施。</p>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="contact-us">
+                                <h2>七、聯繫我們</h2>
+                                <p>如果您對本隱私權政策或我們的資料處理實踐有任何疑問，請透過以下方式與我們聯繫：</p>
+                                <ul>
+                                    <li>或參考<a href="./contact-us.html" style="color: #3498db; text-decoration: underline; font-weight: 600;">聯繫我們</a>頁面。</li>
+                                </ul>
+                            </section>
+                        </article>
+                    </main>
+                </div>
+            </div>
+    
+            <div class="main-right">
+                <div class="quick-nav">
+                    <h3>本頁快速導覽</h3>
+                    <ul>
+                        <li><a href="#data-collection">資料的收集與使用</a></li>
+                        <li><a href="#data-protection">資料安全</a></li>
+                        <li><a href="#third-party-links">第三方連結</a></li>
+                        <li><a href="#children-privacy">兒童隱私</a></li>
+                        <li><a href="#your-rights">您的權利</a></li>
+                        <li><a href="#policy-changes">隱私權政策的變更</a></li>
+                        <li><a href="#contact-us">聯繫我們</a></li>
+                    </ul>
+                </div>
+    
+                <div class="tool-recommend">
+                    <h3>理財工具推薦</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+    
+                <div class="news-feed">
+                    <h3>複利資訊</h3>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="./privacy-policy.html">隱私權政策</a>
+            <a href="./terms-of-service.html">服務條款</a>
+            <a href="./contact-us.html">聯繫我們</a>
+        </div>
+        <div class="footer-copyright">
+            © 2025 複利計算機 | 所有權利保留
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const links = navLinks.querySelectorAll('a');
+    
+        const toggleMenu = () => {
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('show');
+          overlay.classList.toggle('show');
+        };
+    
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMenu();
+        });
+    
+        overlay.addEventListener('click', toggleMenu);
+    
+        links.forEach(link => {
+          link.addEventListener('click', () => {
+            if (navLinks.classList.contains('show')) {
+              toggleMenu();
+            }
+          });
+        });
+      });
+    </script>
+</body>
+</html>

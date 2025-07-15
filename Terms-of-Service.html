@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>服務條款 | 複利計算機網站使用規範與免責聲明 2025</title>
+    <meta name="description" content="歡迎閱讀複利計算機網站的服務條款。本頁詳述您在使用本站所有計算工具（如複利、定期定額計算機）時應遵守的使用規範、免責聲明及智慧財產權政策。" />
+    <meta name="keywords" content="服務條款, 使用條款, 使用規範, 免責聲明, 複利計算機, 定期定額計算機, 網站使用, 責任限制, 智慧財產權, 財務工具使用條款, 投資風險" />
+    <style>
+    /* ======== 您的所有 CSS 樣式保持不變 ======== */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+        font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+        background: #f9f9f9; color: #333; line-height: 1.6; min-height: 100vh;
+        overflow-x: hidden; display: flex; flex-direction: column;
+    }
+    .main-layout-container { flex: 1; }
+    nav {
+        width: 100%; background: #3498db; color: #fff; position: sticky;
+        top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav > .nav-container {
+        max-width: 1200px; margin: 0 auto; display: flex; align-items: center;
+        justify-content: space-between; padding: 0.7rem 1.5rem; flex-wrap: nowrap;
+    }
+    .nav-title { font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; }
+    #nav-links { display: flex; gap: 2rem; font-size: 1.1rem; flex-wrap: wrap; }
+    nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: #e0e0e0; }
+    .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+    .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+    .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger-menu.active .bar2 { opacity: 0; }
+    .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+    #menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+    #menu-overlay.show { display: block; opacity: 1; }
+    h1, h2, h3 { color: #2c3e50; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+    p { margin-bottom: 1rem; }
+    ul { padding-left: 20px; }
+    hr { border: 0; height: 1px; background: #eee; margin: 2rem 0; }
+    .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+    .main-left { flex: 2; min-width: 320px; }
+    .main-right { flex: 1; min-width: 220px; background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; position: sticky; top: calc(2rem + 60px); height: fit-content; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+    .quick-nav { margin-bottom: 2.5rem; }
+    .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin-bottom: 0.7rem; }
+    .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+    .quick-nav li { margin-bottom: 0.7rem; }
+    .quick-nav a { color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+    .tool-recommend { margin-top: 2rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .tool-recommend h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .tool-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+    .tool-item:last-child { border-bottom: none; }
+    .news-feed { margin-top: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .news-feed h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+    .news-item:last-child { border-bottom: none; }
+    footer { background: #3498db; color: white; padding: 1.5rem; text-align: center; font-size: 1rem; margin-top: auto; width: 100%; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); }
+    .footer-copyright, .footer-links { text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+    .footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+    .footer-links a:hover { color: white; text-decoration: underline; }
+    @media (max-width: 900px) {
+        .hamburger-menu { display: flex; }
+        #nav-links {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50;
+            flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem 2rem;
+            gap: 1.5rem; z-index: 999; transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out; box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+        }
+        #nav-links.show { transform: translateX(0); }
+        #nav-links a { font-size: 1.2rem; width: 100%; }
+        .main-layout { flex-direction: column; padding: 0 0.5rem; gap: 0; }
+        .main-right { position: static; width: 100%; background: transparent; box-shadow: none; padding: 0; margin: 0; display: contents; }
+        .quick-nav { order: 1; background: #f4f8fb; border-radius: 12px; padding: 1.5rem; margin: 1rem 0 2rem 0; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15); }
+        .main-left { order: 2; min-width: unset; }
+        .tool-recommend { order: 3; margin-top: 1.5rem; }
+        .news-feed { order: 4; margin: 1.5rem 0 3rem 0; }
+        .card, .quick-nav, .tool-recommend, .news-feed { margin-left: 0; margin-right: 0; width: 100%; }
+    }
+    @media (max-width: 600px) {
+        h1 { font-size: 2rem; }
+        .main-layout { margin-top: 1rem; }
+        .card { padding: 1.5rem 1rem; }
+        footer { padding: 1rem; font-size: 0.9rem; }
+        .footer-links { flex-direction: column; gap: 0.8rem; }
+    }
+    </style>
+</head>
+<body>
+    <!-- 導航列 HTML -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">複利計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <div id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="menu-overlay"></div>
+
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="card">
+                    <main>
+                        <article>
+                            <section id="intro">
+                                <h1>網站服務條款</h1>
+                                <p>歡迎您使用「複利計算機」網站（以下簡稱「本網站」）。為了保障您的權益，請在使用本網站提供的各項服務（包括但不限於複利計算機、定期定額計算機等工具）前，詳細閱讀本服務條款。當您開始使用本網站，即表示您已閱讀、理解並同意接受本條款的所有內容。</p>
+                                <p>本服務條款最後更新日期：2025年6月12日</p>
+                            </section>
+
+                            <section id="service-description">
+                                <h2>一、服務說明與接受條款</h2>
+                                <p>本網站是一個提供線上財務計算工具及相關資訊的平台，旨在幫助使用者理解複利、定期定額等財務概念。您理解並同意，本網站所有服務僅依其當時的功能及現況提供。</p>
+                            </section>
+
+                            <hr>
+
+                            <section id="user-conduct">
+                                <h2>二、使用者義務與行為規範</h2>
+                                <p>您承諾絕不為任何非法目的或以任何非法方式使用本網站，並承諾遵守中華民國相關法規及一切使用網際網路之國際慣例。您同意並保證不得利用本網站服務從事侵害他人權益或違法之行為，包括但不限於：</p>
+                                <ul>
+                                    <li>上載、張貼、公布或傳送任何誹謗、侮辱、具威脅性、攻擊性、不雅、猥褻、不實、違反公共秩序或善良風俗或其他不法之文字、圖片或任何形式的檔案。</li>
+                                    <li>侵害或毀損本網站或他人名譽、隱私權、營業秘密、商標權、著作權、專利權、其他智慧財產權及其他權利。</li>
+                                    <li>從事未經本網站事前授權的商業行為。</li>
+                                    <li>干擾或中斷本網站服務或伺服器或連結本網站服務的網路，或不遵守連結至本網站服務的相關需求、程序、政策或規則等。</li>
+                                </ul>
+                            </section>
+                            
+                            <!-- 保留與隱私權政策頁面一致的 CTA 區塊 -->
+                            <section style="text-align: center; padding: 30px; margin: 40px 0; background: linear-gradient(135deg, #2c3e50, #34495e); border-radius: 10px; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                <h2 style="font-size: 1.8em; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); color: white;">💡 開始規劃您的財務未來</h2>
+                                <p style="font-size: 1.1em; margin-bottom: 25px;">使用我們的定期定額計算機，看看每月投資的驚人潛力！</p>
+                                <a href="/regular-fixed-investment-compound-calculator" style="display: inline-block; background-color: #2ecc71; color: #fff; padding: 12px 30px; font-size: 1.1em; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+                                    前往定期定額計算機
+                                </a>
+                            </section>
+
+                            <section id="disclaimer">
+                                <h2>三、免責聲明與風險提示</h2>
+                                <p><strong>本網站所有內容，包括計算結果、文章、數據及資訊，皆僅供教育與參考目的，不構成任何形式的財務、投資、法律、稅務或其他專業建議。</strong></p>
+                                <p>您不應將本網站的任何資訊作為做出任何財務決策的唯一依據。在進行任何投資或財務規劃前，您應諮詢合格的專業財務顧問。本網站不保證所有資訊的即時性、準確性或完整性，對於您因使用或依賴本網站資訊而造成的任何直接或間接損失，本網站概不負責。</p>
+                            </section>
+
+                            <hr>
+
+                            <section id="intellectual-property">
+                                <h2>四、智慧財產權</h2>
+                                <p>本網站上所有內容，包括但不限於著作、圖片、檔案、資訊、資料、網站架構、網站畫面的安排、網頁設計，均由本網站或其他權利人依法擁有其智慧財產權。任何人不得逕自使用、修改、重製、公開播送、改作、散布、發行、公開發表、進行還原工程、解編或反向組譯。若您欲引用或轉載前述軟體、程式或網站內容，必須依法取得本網站或其他權利人的事前書面同意。</p>
+                            </section>
+
+                            <hr>
+
+                            <section id="limitation-of-liability">
+                                <h2>五、責任限制</h2>
+                                <p>您明確了解並同意，在任何情況下，本網站及其管理者、員工或代理人，均不對任何因使用或無法使用本網站服務所造成的直接、間接、附帶、特別、衍生性或懲罰性損害負責，即使本網站已被告知該等損害的可能性。</p>
+                            </section>
+
+                            <hr>
+
+                            <section id="terms-changes">
+                                <h2>六、服務條款的變更</h2>
+                                <p>本網站保留隨時修改本服務條款的權利，修改後的條款將公布於本網站上，不另行個別通知。如果您在任何修改或變更後繼續使用本網站服務，將視為您已閱讀、瞭解並同意接受該等修改或變更。</p>
+                            </section>
+
+                            <hr>
+                            
+                            <section id="contact-us">
+                                <h2>七、聯繫我們</h2>
+                                <p>若您對本服務條款有任何疑問，歡迎透過<a href="./contact-us.html" style="color: #3498db; text-decoration: underline; font-weight: 600;">聯繫我們</a>頁面與我們聯絡。</p>
+                            </section>
+                        </article>
+                    </main>
+                </div>
+            </div>
+    
+            <div class="main-right">
+                <div class="quick-nav">
+                    <h3>本頁快速導覽</h3>
+                    <ul>
+                        <li><a href="#intellectual-property">智慧財產權</a></li>
+                        <li><a href="#limitation-of-liability">責任限制</a></li>
+                        <li><a href="#terms-changes">條款變更</a></li>
+                        <li><a href="#contact-us">聯繫我們</a></li>
+                    </ul>
+                </div>
+    
+                <div class="tool-recommend">
+                    <h3>理財工具推薦</h3>
+                     <div class="tool-item"><a href="Future-Value-Calculator.html">複利終值計算機</a></div>
+                    <div class="tool-item"><a href="Present-Value-of-Compound-Interest.html">複利現值計算機</a></div>
+                    <div class="tool-item"><a href="APR-vs-APY-Calculator.html">APR/APY 轉換計算機</a></div>
+                    <div class="tool-item"><a href="Simple-Interest-Calculator.html">單利計算機</a></div>
+                    <div class="tool-item"><a href="Continuous-Compound-Interest-Calculator.html">連續複利計算機</a></div>
+                    <div class="tool-item"><a href="72-Rule-Computer.html">72法則計算機</a></div>
+                    <div class="tool-item"><a href="Interest-Rate-Calculator.html">利率計算機</a></div>
+                    <div class="tool-item"><a href="Loan-Amortization-Calculator.html">貸款計算機</a></div>
+                    <div class="tool-item"><a href="Mortgage-Calculator.html">抵押貸款計算機</a></div>
+                    <div class="tool-item"><a href="Savings-Bond-Calculator.html">儲蓄／存款回報計算機</a></div>
+                    <div class="tool-item"><a href="Bond-Lump-sum-Loan-Calculator.html">債券/固定到期金額計算機</a></div>
+                    <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+    
+                <div class="news-feed">
+                    <h3>複利資訊</h3>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="privacy-policy.html">隱私權政策</a>
+            <a href="terms-of-service.html">服務條款</a>
+            <a href="contact-us.html">聯繫我們</a>
+        </div>
+        <div class="footer-copyright">
+            © 2025 複利計算機 | 所有權利保留
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const links = navLinks.querySelectorAll('a');
+        const toggleMenu = () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('show'); overlay.classList.toggle('show'); };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+        links.forEach(link => { link.addEventListener('click', () => { if (navLinks.classList.contains('show')) { toggleMenu(); } }); });
+      });
+    </script>
+</body>
+</html>
