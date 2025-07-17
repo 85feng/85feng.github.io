@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>複利現值計算機 | 財務規劃、退休金、教育基金現值必備工具</title>
+  <meta name="description" content="免費複利現值計算機，助您精準計算未來財務目標（退休金、教育基金）所需現有投入。掌握現值公式，輕鬆規劃您的財富藍圖，立即試算！" />
+  <meta name="keywords" content="複利現值, 現值計算機, 現在價值, 投資規劃, 未來目標, 所需本金, 財務自由, 時間價值, 折現率, 財務目標, 投資策略, 財富管理, 如何計算退休金現值, 教育基金現在要存多少, 未來一百萬現在值多少錢, 現值公式應用" />
+  <!-- Schema.org 結構化資料 for Calculator -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "複利現值計算機",
+    "description": "免費複利現值計算機，助您精準計算未來財務目標（退休金、教育基金）所需現有投入。掌握現值公式，輕鬆規劃您的財富藍圖，立即試算！",
+    "url": "https://www.yourcompoundcalculator.com/Present-Value-of-Compound-Interest.html",
+    "potentialAction": {
+      "@type": "CalculateAction",
+      "name": "計算複利現值",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.yourcompoundcalculator.com/Present-Value-of-Compound-Interest.html"
+      },
+      "query-input": [
+        {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": "http://schema.org/True",
+          "valueName": "目標未來金額",
+          "valueType": "https://schema.org/QuantitativeValue"
+        },
+        {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": "http://schema.org/True",
+          "valueName": "年利率",
+          "valueType": "https://schema.org/QuantitativeValue"
+        },
+        {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": "http://schema.org/True",
+          "valueName": "投資期限",
+          "valueType": "https://schema.org/QuantitativeValue"
+        },
+        {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": "http://schema.org/True",
+          "valueName": "計息頻率",
+          "valueType": "https://schema.org/Text"
+        }
+      ],
+      "result": {
+        "@type": "PropertyValueSpecification",
+        "valueName": "所需初始本金",
+        "valueType": "https://schema.org/QuantitativeValue"
+      }
+    }
+  }
+  </script>
+ <style>
+/* ======== 基礎樣式 (無修改) ======== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.main-layout-container {
+  flex: 1;
+}
+
+/* ======== 導航列樣式 (核心修改處) ======== */
+nav {
+  width: 100%; /* 使用 100% 寬度以避免溢出 */
+  background: #3498db;
+  color: #fff;
+  font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  box-sizing: border-box;
+  /* 【修改】新增 position: sticky，使其跟隨滾動 */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* 確保導航列在最上層 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 添加陰影以增加層次感 */
+}
+nav > .nav-container { /* 修改選擇器以提高明確性 */
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1.5rem;
+  flex-wrap: nowrap; /* 桌面版不換行 */
+}
+.nav-title { /* 為標題創建一個 class */
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+#nav-links { /* 導航連結容器 */
+  display: flex;
+  gap: 2rem;
+  font-size: 1.1rem;
+  flex-wrap: wrap;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+nav a:hover {
+  color: #e0e0e0;
+}
+
+/* ======== 漢堡選單樣式 (新增) ======== */
+.hamburger-menu {
+  display: none; /* 桌面版預設隱藏 */
+  width: 30px;
+  height: 22px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 1002; /* 確保在滑出選單之上 */
+}
+.hamburger-menu .bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+/* 漢堡選單點擊後的 "X" 動畫 */
+.hamburger-menu.active .bar1 {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+.hamburger-menu.active .bar2 {
+  opacity: 0;
+}
+.hamburger-menu.active .bar3 {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ======== 遮罩層樣式 (新增) ======== */
+#menu-overlay {
+  display: none; /* 預設隱藏 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998; /* 在導航面板之下，內容之上 */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#menu-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+/* ======== 其餘樣式 (大部分無修改) ======== */
+h1, h2, h3 { color: #2c3e50; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+p { margin-bottom: 1rem; }
+.main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+.main-left { flex: 2; min-width: 320px; }
+.main-right { flex: 1; min-width: 220px; background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; position: sticky; top: calc(2rem + 60px); /* 考慮到 sticky 導航列的高度 */ height: fit-content; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+.calculator-highlight { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+.quick-nav { margin-bottom: 2.5rem; }
+.quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin-bottom: 0.7rem; }
+.quick-nav ul { list-style: none; padding: 0; margin: 0; }
+.quick-nav li { margin-bottom: 0.7rem; }
+.quick-nav a { color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+.quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+.side-info { margin-top: 2rem; background: #eaf6fb; border-radius: 8px; padding: 1rem; font-size: 0.98rem; color: #2d5a7a; }
+.tool-recommend { margin-top: 2rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.tool-recommend h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+.tool-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+.tool-item:last-child { border-bottom: none; }
+.news-feed { margin-top: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.news-feed h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+.news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+.news-item:last-child { border-bottom: none; }
+label { display: block; margin-top: 1.25rem; font-weight: 600; color: #2c3e50; }
+input, select { width: 100%; padding: 0.5rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s; }
+input:focus, select:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+button { margin-top: 1.5rem; padding: 0.7rem 1.5rem; background: #3498db; color: white; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background-color 0.3s; }
+button:hover { background: #2980b9; }
+.btn-secondary { background: #7f8c8d; margin-left: 0.75rem; }
+.btn-secondary:hover { background: #636e72; }
+.calc-btn.primary { background-color: #007BFF; color: #fff; }
+.result { margin-top: 2rem; padding: 1.5rem 1.75rem; background: #f0f8ff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07); border-left: 5px solid #3498db; }
+.result h3 { margin-top: 0; margin-bottom: 1rem; font-weight: 700; color: #1e3a8a; font-size: 1.3rem; }
+.result .summary-value { font-size: 2rem; font-weight: 800; color: #2c3e50; margin: 0.5rem 0; }
+.result .summary-label { font-size: 1rem; color: #666; margin-bottom: 1.25rem; }
+.table-container { width: 100%; overflow-x: auto; margin: 20px 0; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 2rem; font-size: 1rem; box-shadow: 0 2px 3px rgba(0,0,0,0.1); }
+th, td { border: 1px solid #bbb; padding: 0.6rem 1rem; text-align: center; }
+th { background-color: #dfe6e9; font-weight: 600; position: sticky; top: 0; }
+tr:nth-child(even) { background-color: #f2f2f2; }
+tr:hover { background-color: #e3f2fd; }
+pre { background-color: #eee; padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: Consolas, "Courier New", monospace; font-size: 1rem; line-height: 1.4; margin-bottom: 1.5rem; }
+code { background-color: #f5f5f5; padding: 2px 5px; border-radius: 3px; font-family: Consolas, Monaco, 'Andale Mono', monospace; }
+.tooltip { border-bottom: 1px dotted #555; cursor: help; position: relative; color: #2980b9; font-weight: 600; margin-left: 0.3rem; }
+.tooltip:hover::after { content: attr(data-tip); position: absolute; left: 0; bottom: 125%; background: #333; color: #fff; padding: 0.3rem 0.6rem; border-radius: 5px; white-space: nowrap; font-size: 0.85rem; z-index: 10; opacity: 0.95; }
+canvas { max-width: 100%; margin-top: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgb(0 0 0 / 0.1); }
+.sr-only { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.content-img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.case { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid #3498db; }
+.faq { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid #3498db; }
+.table-card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: hidden; }
+footer { background: #3498db; color: white; padding: 1.5rem; text-align: center; font-size: 1rem; margin-top: 3rem; width: 100%; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); }
+.footer-content { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.copyright-info { font-weight: 500; line-height: 1.6; }
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+.footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+.footer-links a:hover { color: white; text-decoration: underline; }
+
+/* ======== 響應式佈局 (核心修改處) ======== */
+@media (max-width: 900px) {
+  /* 手機版導航列 */
+  .hamburger-menu {
+    display: flex; /* 在手機版顯示漢堡選單 */
+  }
+
+  #nav-links {
+    /* 【修改】將導航連結變為左側滑出面板 */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #2c3e50; /* 使用深色背景 */
+    flex-direction: column;
+    align-items: flex-start; /* 連結靠左對齊 */
+    padding: 6rem 2rem 2rem 2rem; /* 增加內邊距 */
+    gap: 1.5rem;
+    z-index: 999;
+    transform: translateX(-100%); /* 預設移出螢幕外 */
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+  }
+  #nav-links.show {
+    transform: translateX(0); /* 滑入螢幕 */
+  }
+  #nav-links a {
+    font-size: 1.2rem; /* 放大字體方便點擊 */
+    width: 100%;
+  }
+
+  /* 調整右側邊欄的 sticky top 值 */
+  .main-right {
+    top: calc(1rem + 58px); /* 58px 約為導航列高度 */
+  }
+
+  /* 主佈局 */
+  .main-layout {
+    flex-direction: column;
+    padding: 0 0.5rem;
+    gap: 0;
+  }
+  .calculator-highlight { order: 1; margin-bottom: 1.5rem; }
+  .quick-nav { order: 2; background: #f4f8fb; border-radius: 12px; padding: 1.5rem; margin: 0 0 2rem 0; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15); }
+  .main-left { order: 3; min-width: unset; }
+  .tool-recommend { order: 4; margin-top: 2.5rem; }
+  .news-feed { order: 5; margin: 1.5rem 0 3rem 0; }
+  .main-right { position: static; width: 100%; background: transparent; box-shadow: none; padding: 0; margin: 0; display: contents; }
+  .card,
+  .calculator-highlight,
+  .tool-recommend,
+  .news-feed {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  .main-layout { margin: 0.5rem 0; }
+  .calculator-highlight, .card { padding: 1rem 0.5rem; }
+  .quick-nav, .tool-recommend, .news-feed { padding: 1.2rem; }
+  footer { padding: 1rem; font-size: 0.9rem; }
+  .footer-content { gap: 0.8rem; }
+  .footer-links { gap: 1rem; flex-direction: column; align-items: center; }
+}
+
+/* 打印樣式 (無修改) */
+@media print {
+  body { background: none; font-size: 12pt; }
+  .main-right { display: none; }
+}
+</style>
+</head>
+<body>
+  <!-- 【修改】移除 nav 上的內聯 style，並調整內部結構 -->
+  <nav>
+    <div class="nav-container">
+      <!-- Logo名稱 -->
+      <div class="nav-title">複利現值計算機</div>
+      
+      <!-- 【新增】漢堡選單按鈕 -->
+      <div class="hamburger-menu" id="hamburger-menu">
+        <span class="bar bar1"></span>
+        <span class="bar bar2"></span>
+        <span class="bar bar3"></span>
+      </div>
+
+      <!-- 【修改】導航連結容器，新增 id -->
+      <div id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="stock-calculator.html">股票平均價計算機</a>
+               <a href="https://www.ci-calculator.com/">複利計算機</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 【新增】遮罩層 -->
+  <div id="menu-overlay"></div>
+
+  <!-- 主體內容 (原樣保留) -->
+  <div class="main-layout">
+    <!-- 左側主內容 -->
+    <div class="main-left">
+      <div class="calculator-highlight">
+        <h1 id="compound-present-value-calculator">複利現值計算機</h1>
+免費線上複利現值計算機，支援按年、月、日多種複利方式計算，輕鬆 試算複利現值。
+        <!-- 現值計算機表單與結果區 -->
+        <section aria-labelledby="calculator-title">
+         <form id="compoundForm">
+            <label>目標未來金額 (FV)：<input type="number" id="futureValue" value="100000"></label>
+            <label>年利率 (%)：<input type="number" id="rate" value="5" step="0.01"></label>
+            <label>投資年期 (年)：<input type="number" id="years" value="10"></label>
+            <label>計息頻率：
+              <select id="freq">
+                <option value="1">每年</option>
+                <option value="4">每季</option>
+                <option value="12" selected>每月</option>
+                <option value="365">每日</option>
+              </select>
+            </label>
+            <br>
+            <button type="submit">計算</button>
+            <button type="button" id="resetBtn" class="btn-secondary">重置</button>
+          </form>
+
+          <div id="result" style="display: none;"> <!-- 初始隱藏結果 -->
+            <h3>計算結果</h3>
+            <p>現值：<strong id="presentValueAmount"></strong> 元</p>
+            <p>總利息收入：<strong id="totalInterest"></strong> 元</p>
+
+            <h4>複利現值表格</h4>
+            <div class="table-container">
+              <table id="growthTable">
+                <thead>
+                  <tr>
+                    <th>年數</th>
+                    <th>本金 (Present Value)</th>
+                    <th>利息 (Interest)</th>
+                    <th>未來價值 (Future Value)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 其餘主內容區塊（文本原樣保留） -->
+      <div class="card">
+        <h2 id="concept-title">什麼是複利現值？</h2>
+        <p><strong>複利現值（Present Value of Compound Interest）</strong>是將未來一筆金額，透過逆向複利計算，折算回它在現在的價值。換句話說，它是為了在未來某個時間點達到特定金額，我們現在需要投入多少錢。這對於規劃退休金、教育基金或其他長期財務目標至關重要。</p>
+        <p>理解<strong>時間價值（Time Value of Money）</strong>是複利現值概念的核心。簡單來說，現在的一塊錢比未來的一塊錢更值錢， 現在的錢可以被投資並賺取收益（例如利息），或者會受到通貨膨脹的影響而貶值。因此，將未來的錢折算回現在，才能更準確地評估其真實價值和所需的當前投資。</p>
+      </div>
+
+      <div class="card">
+        <section aria-labelledby="usage-title">
+          <h2 id="usage-title">如何使用複利現值計算機</h2>
+
+          該線上<strong>複利現值計算機</strong>簡單易用，只要輸入您希望在未來達到的目標金額、預期年利率、投資期限和計息頻率（按年、按月或按日），點擊計算按鈕，就可以得出您現在需要投入的初始本金。
+          <br><br>現值計算詳細操作步驟如下：
+          <h3>輸入目標未來金額：</h3>
+          <ul>
+            <li>在第一個字段中，輸入您希望在未來達到的總金額。例如，如果您的退休目標是500萬，請輸入"5000000"。</li>
+          </ul>
+          <h3>輸入年利率：</h3>
+          <ul>
+            <li>接下來，輸入預期的年投資報酬率或折現率。例如5代表5%。</li>
+          </ul>
+          <h3>輸入投資期限：</h3>
+          <ul>
+            <li>輸入從現在到目標日期之間的年數，必須為正整數。投資期限越長，所需現值通常越少。</li>
+          </ul>
+          <h3>計息頻率：</h3>
+          <ul>
+            <li>輸入計息頻率，可以選擇每年、每季、每月、每日。這會影響複利計算的精確性。</li>
+          </ul>
+          了解計息頻率如何影響現值計算，可以幫助您更精確地規劃財務目標。
+        </section>
+        <div class="side-info">
+          <h3>功能說明</h3>
+          <ul>
+            <li>現值評估：嚴格按照最新的利率數據，精準計算複利現值，幫助您評估當前所需投資。</li>
+            <li>規劃助手：除了基本的現值計算，還提供退休金規劃、教育基金儲蓄等應用。</li>
+          </ul>
+        </div>
+      </div>
+<div class="card">
+        <section aria-labelledby="concept-title">
+          <h2>複利現值計算公式</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1rem 0;">
+            <div style="flex: 1; min-width: 300px;">
+              <p>複利現值的計算是複利終值公式的逆向應用。公式如下：</p>
+            </div>
+          </div>
+          <pre>PV = FV / (1 + r)<sup>n</sup>
+其中：
+- PV：現在價值（現值、初始本金）
+- FV：未來價值（期末本利和）
+- r：每期利率（通常為年利率）
+- n：期數（年數或其他計息期數）</pre>
+          <p>若利息計算頻率高於一年（如半年、季、月），則需調整利率與期數，例如：</p>
+          <ul>
+            <li>半年計息一次：<pre>PV = FV / (1 + r/2)<sup>2n</sup></pre></li>
+            <li>季度計息一次：<pre>PV = FV / (1 + r/4)<sup>4n</sup></pre></li>
+            <li>月計息一次：<pre>PV = FV / (1 + r/12)<sup>12n</sup></pre></li>
+          </ul>
+          <p>若為連續複利，則公式為：</p>
+          <pre>PV = FV / e<sup>rt</sup>
+其中 e ≈ 2.71828。</pre>
+        </section>
+      </div>
+
+<div class="card">
+        <section id="compound-effect" style="max-width: 900px; margin: 0 auto; font-family: sans-serif;">
+          <h2>複利現值與時間的關係</h2>
+          <p>複利現值的概念強調「時間價值」對資金的影響。隨著時間的推移，未來一筆錢的現值會因為折現而降低。這意味著，如果你越早開始為一個未來目標儲蓄，你現在需要投入的金額就越少。</p>
+          <p>以下是一個例子：假設你希望在 5 年後擁有 $161,051，並預期年化報酬率為 10% (每年計息)。</p>
+          <div class="table-card">
+            <div style="overflow-x:auto; margin-top: 20px;">
+              <table style="width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                <thead style="background-color: #f2f2f2;">
+                  <tr>
+                    <th style="padding: 10px; border: 1px solid #ccc;">年份</th>
+                    <th style="padding: 10px; border: 1px solid #ccc;">期末目標金額</th>
+                    <th style="padding: 10px; border: 1px solid #ccc;">每年折現率 (10%)</th>
+                    <th style="padding: 10px; border: 1px solid #ccc;">期初所需現值</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">1</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$161,051</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">10%</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$146,410</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">2</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$161,051</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">10%</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$133,100</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">3</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$161,051</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">10%</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$121,000</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">4</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$161,051</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">10%</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$110,000</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">5</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$161,051</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">10%</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">$100,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p style="margin-top: 20px;">從表格中可以看到，為了在 5 年後擁有 $161,051，如果您越早開始投入，您現在需要投入的資金就越少。這正是複利現值的實際應用，它提醒我們及早規劃的重要性。</p>
+        </section>
+      </div>
+<div class="card">
+        <section aria-labelledby="concept-title">
+          <h2>複利現值與終值的差異</h2>
+          <p><strong>複利終值（Future Value）</strong>：是計算一筆現在的錢，在未來會成長到多少。<br>
+          <strong>複利現值（Present Value）</strong>：是計算未來的一筆錢，在現在值多少錢。</p>
+          <p>兩者是鏡像關係，一個是將現在的錢推向未來，一個是將未來的錢折算回現在。</p>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>概念</th>
+                  <th>目的</th>
+                  <th>計算方向</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>複利終值</td>
+                  <td>預測未來資產總額</td>
+                  <td>現在 -&gt; 未來</td>
+                </tr>
+                <tr>
+                  <td>複利現值</td>
+                  <td>評估未來目標所需現有投資</td>
+                  <td>未來  -&gt; 現在</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>理解兩者差異，能幫助您更靈活地進行財務規劃。點擊查看更多關於<a href="Future-Value-Calculator.html" style="color: #3498db; text-decoration: none;">複利終值計算機</a>的資訊。</p>
+        </section>
+      </div>
+
+<div class="card">
+        <section id="compound-present-value-cases">
+          <h2>生活中的複利現值真實案例</h2>
+          <div class="case">
+            <h3>案例一：退休金規劃</h3>
+            <p>
+              王先生希望在20年後退休時擁有500萬元。如果預期年化報酬率為5%，按年複利計算，他現在需要準備多少錢？<br>
+              <strong>計算公式：</strong> PV = 5,000,000 / (1 + 0.05)<sup>20</sup> ≈ 1,884,449元<br>
+              <strong>結果：</strong> 王先生現在約需要投入1,884,449元，才能在20年後達到500萬元的退休目標。
+            </p>
+          </div>
+          <div class="case">
+            <h3>案例二：子女教育基金</h3>
+            <p>
+              李女士計劃15年後為孩子準備200萬元教育基金。若每年可獲得6%的投資報酬，按月複利計算，她現在需要投入多少錢？<br>
+              <strong>計算公式：</strong> PV = 2,000,000 / (1 + 0.06/12)<sup>12×15</sup> ≈ 818,485元<br>
+              <strong>結果：</strong> 李女士現在約需要投入818,485元，才能在15年後達到200萬元的教育基金目標。
+            </p>
+          </div>
+          <div class="case">
+            <h3>案例三：評估未來收益現值</h3>
+            <p>
+              張先生投資了一項專案，預計3年後能獲得100萬元回報。如果他的資金機會成本（折現率）是8%，按年複利計算，這100萬元的現值是多少？<br>
+              <strong>計算公式：</strong> PV = 1,000,000 / (1 + 0.08)<sup>3</sup> ≈ 793,832元<br>
+              <strong>結果：</strong> 這筆未來100萬元的現值約為793,832元。
+            </p>
+          </div>
+          <div class="case">
+            <h3>案例四：購房頭期款儲蓄</h3>
+            <p>
+              陳小姐希望在5年內存到100萬元作為購房頭期款。假設她能找到年利率4%的投資產品，按季複利計算，她現在需要一次性投入多少錢？<br>
+              <strong>計算公式：</strong> PV = 1,000,000 / (1 + 0.04/4)<sup>4×5</sup> ≈ 820,348元<br>
+              <strong>結果：</strong> 陳小姐現在約需要投入820,348元，才能在5年後達到100萬元的購房目標。
+            </p>
+          </div>
+          <div class="case">
+            <h3>案例五：商業專案評估</h3>
+            <p>
+              某公司正評估一個投資專案，預計在5年後帶來2000萬元的淨現金流入。如果公司的要求報酬率（折現率）是10%，這個專案在當前的價值是多少？<br>
+              <strong>計算公式：</strong> PV = 20,000,000 / (1 + 0.10)<sup>5</sup> ≈ 12,418,426元<br>
+              <strong>結果：</strong> 這個未來2000萬元的現金流入，在現在約值12,418,426元，這有助於公司判斷專案是否值得投資。
+            </p>
+          </div>
+          <div class="case">
+            <h3>案例六：房地產投資決策</h3>
+            <p>
+              一位投資者考慮購買一處房產，預計5年後能以1500萬元售出。若他期望的年投資報酬率為7%，這處房產現在的合理買入價格上限是多少？<br>
+              <strong>計算公式：</strong> PV = 15,000,000 / (1 + 0.07)<sup>5</sup> ≈ 10,694,769元<br>
+              <strong>結果：</strong> 為了達到7%的年化報酬率，投資者現在最多應該以約10,694,769元購入該房產。
+            </p>
+          </div>
+        </section>
+      </div>
+<div class="card">
+        <section aria-labelledby="common-pitfalls">
+          <h2>複利現值計算常見誤區與注意事項</h2>
+          <ul>
+            <li><strong>忽略通貨膨脹：</strong> 計算現值時應考慮未來通貨膨脹對購買力的影響，將其納入「年利率」或作為額外的考量。</li>
+            <li><strong>預期報酬率不切實際：</strong> 「年利率」的設定應基於實際投資市場的平均報酬率，過於樂觀可能導致現值低估。</li>
+            <li><strong>稅務影響：</strong> 投資收益通常需要繳稅，這會影響實際的未來淨收入，進而影響所需的現值。</li>
+            <li><strong>風險考量：</strong> 現值計算假設報酬率是確定的，但實際投資存在風險。高風險投資應採用更高的折現率。</li>
+            <li><strong>額外現金流：</strong> 如果未來目標達成過程中會有額外的投入或取出，單純的複利現值計算無法完全反映，需使用更複雜的年金現值計算。</li>
+            <li><strong>計息頻率的影響：</strong> 雖然影響較小，但計息頻率越高（例如每日複利），現值會略微減少。</li>
+          </ul>
+          <p>在實際財務規劃中，建議諮詢專業財務顧問，以獲得更全面的建議。</p>
+        </section>
+      </div>
+<div class="card">
+        <section aria-labelledby="glossary">
+          <h2>金融術語小字典</h2>
+          <dl>
+            <dt><strong>現值 (Present Value, PV)</strong></dt>
+            <dd>未來一筆金額在當前的價值，通常是計算為了達成未來目標，現在需要投入的金額。</dd>
+            <dt><strong>未來價值 (Future Value, FV)</strong></dt>
+            <dd>現在的一筆金額，在特定利率和期限下，未來會成長到的總金額。</dd>
+            <dt><strong>年利率 (Annual Interest Rate, r)</strong></dt>
+            <dd>每年資金增長的百分比，在現值計算中也常指「折現率」。</dd>
+            <dt><strong>折現率 (Discount Rate)</strong></dt>
+            <dd>將未來現金流折算成現值所使用的利率。通常反映了資金的時間價值和風險溢價。</dd>
+            <dt><strong>投資期限 (Years, t)</strong></dt>
+            <dd>資金從現在到未來目標日期之間經過的年數。</dd>
+            <dt><strong>計息頻率 (Compounding Frequency, n)</strong></dt>
+            <dd>一年中利息計算的次數（例如：每年1次，每季4次，每月12次，每日365次）。</dd>
+            <dt><strong>時間價值 (Time Value of Money, TVM)</strong></dt>
+            <dd>一個核心財務概念，指一筆錢在今天所擁有的價值，會比未來同等金額的錢更有價值，因為它有賺取收益的潛力。</dd>
+          </dl>
+        </section>
+      </div>
+<div class="card">
+        <section id="compound-present-value-faq">
+          <h2>複利現值計算常見問答（FAQ）</h2>
+          <div class="faq">
+            <h3>1. 複利現值是什麼？</h3>
+            <p>
+              複利現值是指未來一筆金額，根據預期利率和時間，計算其在當前的等值金額。它幫助您了解為實現未來財務目標，現在需要投資多少。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>2. 複利現值計算器怎麼用？</h3>
+            <p>
+              只需輸入您希望達到的未來金額、預期年利率、投資期限和計息頻率，點擊計算即可獲得當前所需投入的本金和總利息收入。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>3. 複利現值與終值有什麼區別？</h3>
+            <p>
+              複利現值是將未來金額折算回現在的價值，而複利終值是將現在金額計算其在未來的價值。兩者是時間價值概念的兩個不同方向。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>4. 哪些因素會影響複利現值計算結果？</h3>
+            <p>
+              主要受未來目標金額、年利率（折現率）、投資期限和計息頻率影響。利率越高、期限越長，所需現值越少。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>5. 如何利用複利現值規劃財務目標？</h3>
+            <p>
+              透過複利現值計算，您可以明確為實現特定未來目標，現在需要一次性投入的資金量。這有助於制定實際可行的儲蓄和投資策略。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>6. 計算複利現值時需要考慮通貨膨脹嗎？</h3>
+            <p>
+              是的，雖然公式本身不直接包含通貨膨脹，但在實際應用中，您應該考慮未來購買力的下降。可以在設定「年利率」時，納入對通貨膨脹的預期，或者將計算出的現值視為「名義金額」，再根據通貨膨脹率調整為「實質購買力」。
+            </p>
+          </div>
+          <div class="faq">
+            <h3>7. 複利現值計算可以用於哪些情境？</h3>
+            <p>
+              複利現值廣泛應用於個人理財（退休金規劃、教育基金儲蓄）、商業投資評估、房地產分析、債券估價、甚至法庭判決賠償金的計算等。任何涉及未來一筆錢在當前價值的評估，都可以使用現值計算。
+            </p>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+  
+    <!-- 右側快捷導航 -->
+    <aside class="main-right">
+      <!-- 新增相關工具推薦 -->
+      <div class="tool-recommend">
+        <h3>理財工具推薦</h3>
+  <div class="tool-item"><a href="future-value-calculator.html">複利終值計算機</a></div>
+  <div class="tool-item"><a href="present-value-of-compound-interest.html">複利現值計算機</a></div>
+  <div class="tool-item"><a href="apr-vs-apy-calculator.html">APR/APY 轉換計算機</a></div>
+  <div class="tool-item"><a href="simple-interest-calculator.html">單利計算機</a></div>
+  <div class="tool-item"><a href="continuous-compound-interest-calculator.html">連續複利計算機</a></div>
+  <div class="tool-item"><a href="72-rule-computer.html">72法則計算機</a></div>
+  <div class="tool-item"><a href="interest-rate-calculator.html">利率計算機</a></div>
+  <div class="tool-item"><a href="loan-amortization-calculator.html">貸款計算機</a></div>
+  <div class="tool-item"><a href="mortgage-calculator.html">抵押貸款計算機</a></div>
+  <div class="tool-item"><a href="savings-bond-calculator.html">儲蓄／存款回報計算機</a></div>
+  <div class="tool-item"><a href="bond-lump-sum-loan-calculator.html">債券/固定到期金額計算機</a></div>
+  <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+
+      </div>
+      <!-- 新增最新財經新聞 -->
+      <div class="news-feed">
+        <h3>複利資訊</h3>
+  <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+  <div class="news-item"><a href="excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+  <div class="news-item"><a href="difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+  // ======== 計算機功能 (原樣保留) ========
+  const form = document.getElementById('compoundForm');
+  const resultDiv = document.getElementById('result');
+  const presentValueAmountEl = document.getElementById('presentValueAmount');
+  const totalInterestEl = document.getElementById('totalInterest');
+  const tableBody = document.querySelector('#growthTable tbody');
+
+  function calculatePresentValue(fv, rate, years, freq) {
+    if (rate === 0) return fv;
+    const r = (rate / 100) / freq;
+    const n = freq * years;
+    return fv / Math.pow(1 + r, n);
+  }
+
+  function fillGrowthTable(presentValue, rate, years, freq) {
+    const r = (rate / 100) / freq;
+    tableBody.innerHTML = '';
+    for (let year = 0; year <= years; year++) {
+      const fv = presentValue * Math.pow(1 + r, freq * year);
+      const interest = fv - presentValue;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${year}</td>
+        <td>${presentValue.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>
+        <td>${interest.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>
+        <td>${fv.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>
+      `;
+      tableBody.appendChild(row);
+    }
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fv = parseFloat(document.getElementById('futureValue').value);
+    const rate = parseFloat(document.getElementById('rate').value);
+    const years = parseInt(document.getElementById('years').value, 10);
+    const freq = parseInt(document.getElementById('freq').value, 10);
+
+    if (isNaN(fv) || isNaN(rate) || isNaN(years) || isNaN(freq) || fv <= 0 || years <= 0 || rate < 0) {
+      alert('請輸入有效的數值');
+      return;
+    }
+
+    const pv = calculatePresentValue(fv, rate, years, freq);
+    const totalInterest = fv - pv;
+
+    presentValueAmountEl.textContent = pv.toLocaleString(undefined, {maximumFractionDigits:2});
+    totalInterestEl.textContent = totalInterest.toLocaleString(undefined, {maximumFractionDigits:2});
+    resultDiv.style.display = 'block';
+    
+    fillGrowthTable(pv, rate, years, freq);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    form.reset();
+    resultDiv.style.display = 'none';
+    tableBody.innerHTML = '';
+  });
+
+  // ========【新增】漢堡選單互動功能 ========
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburger-menu');
+    const navLinks = document.getElementById('nav-links');
+    const overlay = document.getElementById('menu-overlay');
+    const links = navLinks.querySelectorAll('a');
+
+    // 開關選單的函數
+    const toggleMenu = () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('show');
+      overlay.classList.toggle('show');
+    };
+
+    // 點擊漢堡圖標時開關選單
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation(); // 防止事件冒泡
+      toggleMenu();
+    });
+
+    // 點擊遮罩層時關閉選單
+    overlay.addEventListener('click', toggleMenu);
+
+    // 點擊任一導航連結時關閉選單 (適用於單頁錨點導航)
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        if (navLinks.classList.contains('show')) {
+          toggleMenu();
+        }
+      });
+    });
+  });
+  </script>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="copyright-info">
+        © 2025 複利計算機 - 專業投資理財工具 | 本網站僅供教育參考，不構成投資建議 
+      </div>
+      <div class="footer-links">
+ <a href="privacy-policy.html">隱私政策</a>
+        <a href="Terms-of-Service.html">使用條款</a>
+        <a href="Contact -Us.html">聯絡我們</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

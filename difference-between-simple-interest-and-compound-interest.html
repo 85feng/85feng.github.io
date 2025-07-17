@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>單利與複利差異 2025 | 投資或貸款必看</title>
+    <meta name="description" content="單利與複利差異 2025，2025 最新單利與複利比較！了解單利與複利的計算方式、投資效益差異、72法則應用。助您精準評估投資收益，做出最佳理財決策。" />
+    <style>
+    /* ======== 1. 統一的 CSS 樣式 (直接套用模板) ======== */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+        font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+        background: #f9f9f9; color: #333; line-height: 1.6; min-height: 100vh;
+        overflow-x: hidden; display: flex; flex-direction: column;
+    }
+    .main-layout-container { flex: 1; }
+    nav {
+        width: 100%; background: #3498db; color: #fff; position: sticky;
+        top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .nav-container {
+        max-width: 1200px; margin: 0 auto; display: flex; align-items: center;
+        justify-content: space-between; padding: 0.7rem 1.5rem; height: 60px; flex-wrap: nowrap;
+    }
+    .nav-title { font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; }
+    #nav-links { display: flex; gap: 2rem; font-size: 1.1rem; flex-wrap: wrap; }
+    nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: #e0e0e0; }
+    .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+    .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+    .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger-menu.active .bar2 { opacity: 0; }
+    .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+    #menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+    #menu-overlay.show { display: block; opacity: 1; }
+    h1, h2, h3, h4 { color: #2c3e50; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+    p { margin-bottom: 1rem; }
+    ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+    hr { border: 0; height: 1px; background: #eee; margin: 2rem 0; }
+    .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+    .main-left { flex: 2; min-width: 320px; }
+    .main-right { flex: 1; min-width: 220px; background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; position: sticky; top: calc(60px + 2rem); height: fit-content; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+    .quick-nav { margin-bottom: 2.5rem; }
+    .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin-bottom: 0.7rem; }
+    .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+    .quick-nav li { margin-bottom: 0.7rem; }
+    .quick-nav a { color: #3498db; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+    .tool-recommend, .news-feed { margin-bottom: 1.5rem; }
+    .tool-recommend, .news-feed { padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: #2c3e50; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+    .tool-item a, .news-item a { font-weight: 600; }
+    .tool-item a { color: #2980b9; }
+    .news-item a { color: #2c3e50; }
+    .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 2rem; font-size: 1rem; box-shadow: 0 2px 3px rgba(0,0,0,0.1); }
+    th, td { border: 1px solid #bbb; padding: 0.6rem 1rem; text-align: center; }
+    th { background-color: #dfe6e9; font-weight: 600; }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e3f2fd; }
+    .case, .faq { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid #3498db; }
+    .table-card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: auto; }
+    footer { background: #3498db; color: white; padding: 1.5rem; text-align: center; font-size: 1rem; margin-top: auto; width: 100%; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); }
+    .footer-copyright, .footer-links { text-align: center; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+    .footer-links a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+    .footer-links a:hover { color: white; text-decoration: underline; }
+    .cta-section { text-align: center; padding: 30px; margin: 40px 0; background: linear-gradient(135deg, #2E7D32, #4CAF50); border-radius: 10px; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .cta-section h2 { font-size: 1.8em; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); color: white; }
+    .cta-section p { font-size: 1.1em; margin-bottom: 25px; }
+    .cta-button { display: inline-block; background-color: #FFC107; color: #333; padding: 12px 30px; font-size: 1.1em; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+    .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+    .cta-section .note { margin-top: 20px; font-size: 0.9em; opacity: 0.9; }
+
+    @media (max-width: 900px) {
+        .hamburger-menu { display: flex; }
+        #nav-links {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50;
+            flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem 2rem;
+            gap: 1.5rem; z-index: 999; transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out; box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+        }
+        #nav-links.show { transform: translateX(0); }
+        #nav-links a { font-size: 1.2rem; width: 100%; }
+        .main-layout { flex-direction: column; padding: 0 0.5rem; gap: 0; }
+        .main-right { position: static; width: 100%; background: transparent; box-shadow: none; padding: 0; margin: 0; display: contents; }
+        .main-left { order: 2; min-width: unset; }
+        .quick-nav { order: 1; background: #f4f8fb; border-radius: 12px; padding: 1.5rem; margin: 1rem 0 2rem 0; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15); }
+        .tool-recommend { order: 3; margin-top: 1.5rem; }
+        .news-feed { order: 4; margin: 1.5rem 0 3rem 0; }
+        .card, .quick-nav, .tool-recommend, .news-feed { margin-left: 0; margin-right: 0; width: 100%; }
+    }
+    @media (max-width: 600px) {
+        h1 { font-size: 2rem; }
+        .main-layout { margin-top: 1rem; }
+        .card { padding: 1.5rem 1rem; }
+        footer { padding: 1rem; font-size: 0.9rem; }
+        .footer-links { flex-direction: column; gap: 0.8rem; }
+    }
+    </style>
+</head>
+<body>
+    <!-- 導航列 HTML (套用模板) -->
+    <nav>
+        <div class="nav-container">
+            <a href="./index.html" class="nav-title" style="color: #fff; text-decoration: none;">複利計算機</a>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <div id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="stock-calculator.html">股票平均價計算機</a>
+               <a href="https://www.ci-calculator.com/">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 遮罩層 (套用模板) -->
+    <div id="menu-overlay"></div>
+
+    <!-- 主體內容容器 (套用模板) -->
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <!-- 左側主內容 (【保證】完全保留您提供的原文) -->
+            <div class="main-left">
+                <div class="card">
+                    <main>
+                        <article>
+                            <section id="intro">
+                                <h1>單利與複利的差異</h1>
+                                <p><strong>單利(Simple interest)</strong>是利息僅基於本金計算,不包括前期利息。而<strong>複利(compound interest)</strong>則是將前期獲得的利息併入本金,持續計算利息的利息,形成”利滾利”的效果。小編將與您一起探討這兩種利息計算方式的定義、公式、實際影響與應用場景，幫助您做出更明智的財務決策。</p>
+                            </section>
+    
+                            <hr>
+
+                            <section id="key-differences">
+                                <h2>單利 複利 哪個比較好？</h2>
+                                <div class="table-card">
+                                    <table>
+                                        <thead>
+                                            <tr><th>特徵</th><th>單利 (Simple Interest)</th><th>複利 (Compound Interest)</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td><strong>計算基礎</strong></td><td>僅基於原始本金</td><td>基於原始本金加上之前累積的利息</td></tr>
+                                            <tr><td><strong>利息生成</strong></td><td>每期利息金額固定</td><td>每期利息金額遞增</td></tr>
+                                            <tr><td><strong>增長曲線</strong></td><td>線性增長（較慢）</td><td>指數級增長（先慢後快）</td></tr>
+                                            <tr><td><strong>長期影響</strong></td><td>收益較低，尤其在長期投資中</td><td>收益潛力巨大，長期效果顯著</td></tr>
+                                            <tr><td><strong>應用場景</strong></td><td>短期貸款、債券利息、少數儲蓄帳戶</td><td>長期投資、儲蓄帳戶、貸款、信用卡、股票、基金</td></tr>
+                                            <tr><td><strong>「利滾利」效應</strong></td><td>無</td><td>有，是其核心優勢</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p>從上表可以看出，<strong>複利在長期投資中具有壓倒性的優勢</strong>。隨著時間的推移，複利所帶來的財富增長將遠超單利。</p>
+                            </section>
+     <ul>
+                        <li><a href="#simple-interest">什麼是單利？</a></li>
+                        <li><a href="#compound-interest">什麼是複利？</a></li>
+                        <li><a href="#key-differences">單利與複利的關鍵差異</a></li>
+                        <li><a href="#applications">單利與複利的應用場景</a></li>
+                        <li><a href="#faq-title">常見問題解答</a></li>
+                    </ul>
+                            <hr>
+    
+                            <section id="simple-interest">
+                                <h2>什麼是單利？</h2>
+                                <p><strong>單利</strong>是指利息只根據原始的本金計算，在整個投資或借貸期間，所產生的利息不會再滾入本金，也不會再次產生利息。這意味著每期的利息金額都是固定的。</p>
+                                <h3>單利計算公式</h3>
+                                <p>單利終值 (Future Value) = 本金 (PV) × (1 + 利率 (r) × 期限 (t))</p>
+                                <p>其中：</p>
+                                <ul>
+                                    <li><strong>PV (Principal Value)</strong>：原始投入的本金。</li>
+                                    <li><strong>r (Interest Rate)</strong>：每期利率（通常為年利率）。</li>
+                                    <li><strong>t (Time)</strong>：投資或借貸的總期數（通常為年數）。</li>
+                                </ul>
+                                <h3>單利範例</h3>
+                                <div class="case">
+                                    <h4>範例：單利計算</h4>
+                                    <p>假設您投資 $10,000，年利率為 5%，投資期為 3 年，以單利計算。</p>
+                                    <ul>
+                                        <li>第一年利息：$10,000 × 5% = $500</li>
+                                        <li>第二年利息：$10,000 × 5% = $500</li>
+                                        <li>第三年利息：$10,000 × 5% = $500</li>
+                                    </ul>
+                                    <p>總利息 = $500 × 3 = $1,500</p>
+                                    <p>期末總金額 = $10,000 + $1,500 = <strong>$11,500</strong></p>
+                                    <p>或者使用公式：$10,000 × (1 + 0.05 × 3) = $10,000 × 1.15 = <strong>$11,500</strong></p>
+                                </div>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="compound-interest">
+                                <h2>什麼是複利？</h2>
+                                <p><strong>複利</strong>，又稱「利滾利」，是指將每期所產生的利息，再併入本金繼續計算下一期的利息。這使得您的本金隨著時間的推移而增長，進而產生更多的利息，形成一種「雪球效應」。愛因斯坦曾稱複利為「世界第八大奇蹟」。</p>
+                                <h3>複利計算公式</h3>
+                                <p>複利終值 (Future Value) = 本金 (PV) × (1 + 每期利率 (i))<sup>n</sup></p>
+                                <p>其中：</p>
+                                <ul>
+                                    <li><strong>PV (Present Value)</strong>：原始投入的本金。</li>
+                                    <li><strong>i (Interest Rate per Period)</strong>：每期利率（年利率除以每年複利次數）。</li>
+                                    <li><strong>n (Number of Periods)</strong>：總期數（投資年數 × 每年複利次數）。</li>
+                                </ul>
+                                <h3>複利範例</h3>
+                                <div class="case">
+                                    <h4>範例：複利計算 (每年複利)</h4>
+                                    <p>假設您投資 $10,000，年利率為 5%，投資期為 3 年，每年複利一次。</p>
+                                    <ul>
+                                        <li>第一年結束：$10,000 × (1 + 0.05) = $10,500</li>
+                                        <li>第二年結束：$10,500 × (1 + 0.05) = $11,025</li>
+                                        <li>第三年結束：$11,025 × (1 + 0.05) = $11,576.25</li>
+                                    </ul>
+                                    <p>期末總金額 = <strong>$11,576.25</strong></p>
+                                    <p>或者使用公式：$10,000 × (1 + 0.05)<sup>3</sup> = <strong>$11,576.25</strong></p>
+                                </div>
+                                <div class="case">
+                                    <h4>範例：複利計算 (每月複利)</h4>
+                                    <p>假設您投資 $10,000，年利率為 5%，投資期為 3 年，每月複利一次。</p>
+                                    <ul>
+                                        <li>每期利率 (i) = 5% / 12 = 0.05 / 12</li>
+                                        <li>總期數 (n) = 3 年 × 12 月/年 = 36 期</li>
+                                    </ul>
+                                    <p>複利終值 = $10,000 × (1 + 0.05/12)<sup>36</sup> ≈ <strong>$11,614.72</strong></p>
+                                    <p>每月複利產生的收益更高，這是因為利息被更頻繁地重新投入本金，產生「利滾利」的效果。</p>
+                                </div>
+                            </section>
+    
+                            <!-- 呼籲行動區塊 (移除內聯樣式，改用 class) -->
+                            <section class="cta-section">
+                                <h2>🚀 立即計算您的複利收益！</h2>
+                                <p>無需複雜計算，一鍵取得精確結果</p>
+                                <a href="compound-calculator.html" class="cta-button">
+                                    複利計算機
+                                </a>
+                                <p class="note">輸入本金、利率與期限，即可預測財富成長</p>
+                            </section>
+    
+    
+                            <section id="applications">
+                                <h2>單利與複利的應用場景</h2>
+                                <h3>單利常見應用</h3>
+                                <ul><li><strong>短期貸款：</strong> 例如一些小額貸款或短期借款，利息可能按單利計算。</li><li><strong>某些債券：</strong> 部分政府債券或企業債券的利息支付是基於單利計算的。</li><li><strong>部分儲蓄帳戶：</strong> 少數傳統銀行儲蓄帳戶可能仍採用單利計息，但已不常見。</li></ul>
+                                <h3>複利常見應用</h3>
+                                <ul><li><strong>銀行存款：</strong> 大多數活期、定期存款都採用複利計息。</li><li><strong>房屋貸款/個人貸款：</strong> 貸款利息通常按複利計算，這也解釋了為何長期貸款的總利息支出驚人。</li><li><strong>信用卡債務：</strong> 信用卡利息是複利計息的典型例子，若不按時繳清，利息會快速累積。</li><li><strong>股票投資：</strong> 股票分紅再投資、ETF 定期定額投資等都可享受複利效果。</li><li><strong>退休金計劃：</strong> 養老金或個人退休帳戶的投資增長，主要依賴複利效應。</li><li><strong>各種投資基金：</strong> 共同基金、指數基金等投資工具，其收益通常是複利增長的。</li></ul>
+                            </section>
+    
+                            <hr>
+    
+                            <section id="faq-title">
+                                <h2>單利與複利常見問題解答</h2>
+                                <div class="faq">
+                                    <h3>Q1：如何快速判斷我的投資是單利還是複利？</h3>
+                                    <p>大多數現代金融產品，尤其是長期投資或儲蓄產品，都是採用<strong>複利</strong>計息。如果您不確定，請查閱產品說明或諮詢金融機構。短期借貸或特定債券則可能採用單利。</p>
+                                </div>
+                                <div class="faq">
+                                    <h3>Q2：為什麼說複利是「世界第八大奇蹟」？</h3>
+                                    <p>這句話通常歸因於愛因斯坦。它強調了複利在長期投資中的巨大潛力。透過利息不斷產生利息，即使是小額投資，在足夠長的時間內也能產生驚人的增長，這就是複利「指數級」增長的魅力。</p>
+                                </div>
+                                <div class="faq">
+                                    <h3>Q3：複利計息頻率越高越好嗎？</h3>
+                                    <p>是的，在其他條件相同的情況下，複利計息頻率越高（例如每月複利優於每年複利），終值會越高。因為利息被更頻繁地計算並滾入本金，能更快地產生新的利息。</p>
+                                </div>
+                                <div class="faq">
+                                    <h3>Q4：複利單利怎麼算？</h3>
+                                    <p>單利本利和= 本金× ( 1 + 期利率× 期數)。  複利本利和= 本金× ( 1 + 期利率)期數。</p>
+                                </div>
+                                <div class="faq">
+                                    <h3>Q5：複利單利怎麼算？</h3>
+                                    <p>要最大化複利效應，您應該：</p>
+                                    <ol><li><strong>盡早開始投資：</strong> 時間是複利最大的朋友。</li><li><strong>長期堅持投資：</strong> 給予資金足夠的時間來滾雪球。</li><li><strong>選擇高複利頻率的產品：</strong> 如果有選擇，偏好每日或每月複利的產品。</li><li><strong>定期定額投資：</strong> 即使是小額的持續投入，長期下來也能產生巨大效益。</li><li><strong>將利息或股息再投資：</strong> 確保收益能繼續產生收益。</li></ol>
+                                </div>
+                            </section>
+                        </article>
+                    </main>
+                </div>
+            </div>
+    
+            <!-- 右側邊欄 (【保證】完全保留您提供的原文) -->
+            <div class="main-right">
+                <div class="tool-recommend">
+                    <h3>理財工具推薦</h3>
+  <div class="tool-item"><a href="future-value-calculator.html">複利終值計算機</a></div>
+  <div class="tool-item"><a href="present-value-of-compound-interest.html">複利現值計算機</a></div>
+  <div class="tool-item"><a href="apr-vs-apy-calculator.html">APR/APY 轉換計算機</a></div>
+  <div class="tool-item"><a href="simple-interest-calculator.html">單利計算機</a></div>
+  <div class="tool-item"><a href="continuous-compound-interest-calculator.html">連續複利計算機</a></div>
+  <div class="tool-item"><a href="72-rule-computer.html">72法則計算機</a></div>
+  <div class="tool-item"><a href="interest-rate-calculator.html">利率計算機</a></div>
+  <div class="tool-item"><a href="loan-amortization-calculator.html">貸款計算機</a></div>
+  <div class="tool-item"><a href="mortgage-calculator.html">抵押貸款計算機</a></div>
+  <div class="tool-item"><a href="savings-bond-calculator.html">儲蓄／存款回報計算機</a></div>
+  <div class="tool-item"><a href="bond-lump-sum-loan-calculator.html">債券/固定到期金額計算機</a></div>
+  <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>複利資訊</h3>
+                    <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+                    <div class="news-item"><a href="Excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+                    <div class="news-item"><a href="Difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 頁腳 (套用模板) -->
+    <footer>
+        <div class="footer-links">
+            <a href="privacy-policy.html">隱私權政策</a>
+            <a href="terms-of-service.html">服務條款</a>
+            <a href="contact-us.html">聯繫我們</a>
+        </div>
+        <div class="footer-copyright">
+            © 2025 複利計算機 | 所有權利保留
+        </div>
+    </footer>
+
+    <!-- JavaScript (套用模板) -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const links = navLinks.querySelectorAll('a');
+        const toggleMenu = () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('show'); overlay.classList.toggle('show'); };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+        links.forEach(link => { link.addEventListener('click', () => { if (navLinks.classList.contains('show')) { toggleMenu(); } }); });
+      });
+    </script>
+</body>
+</html>

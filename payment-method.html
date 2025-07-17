@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>定期定額複利計算機 2025 | 線上試算每月投入複利增長、預測累積財富</title>
+    <meta name="description" content="2025 最新定期定額複利計算機！精準試算每月固定投入資金在複利效應下的累積總額、總利息收益與資產成長。輕鬆規劃您的長期儲蓄與投資目標，加速實現財富自由。" />
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #2ecc71;
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6;
+            min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-content-wrapper { flex: 1; }
+        h1, h2, h3 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--primary-hover-color); }
+        nav {
+            width: 100%; background: var(--primary-color); color: #fff; position: sticky;
+            top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: var(--container-width); margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 1.5rem; height: var(--navbar-height); flex-wrap: nowrap;
+        }
+        .nav-title { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+        #nav-links { display: flex; gap: 2rem; font-size: 1.1rem; }
+        #nav-links a { color: #fff; }
+        #nav-links a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        #menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        #menu-overlay.show { display: block; opacity: 1; }
+        .main-layout { display: flex; gap: 2rem; max-width: var(--container-width); margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 320px; }
+        .main-right { flex: 1; min-width: 220px; background: #f4f8fb; border-radius: var(--border-radius-md); padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; position: sticky; top: calc(var(--navbar-height) + 2rem); height: fit-content; }
+        .card, .calculator-highlight { background: var(--card-background); border-radius: var(--border-radius-lg); box-shadow: var(--card-shadow); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav h3 { font-size: 1.15rem; color: var(--primary-hover-color); margin-bottom: 0.7rem; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { font-weight: 600; }
+        .quick-nav a:hover { text-decoration: underline; }
+        .side-info, .tool-recommend, .news-feed { margin-bottom: 1.5rem; }
+        .side-info { background: #eaf6fb; border-radius: 8px; padding: 1rem; font-size: 0.98rem; color: #2d5a7a; }
+        .tool-recommend, .news-feed { padding: 1.2rem; background: var(--card-background); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; margin-top: 0; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        label { display: block; margin-top: 1.25rem; font-weight: 600; color: var(--text-color-dark); }
+        input, select { width: 100%; padding: 0.5rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+        button { margin-top: 1.5rem; padding: 0.7rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background: var(--primary-hover-color); }
+        .btn-secondary { background: #7f8c8d; margin-left: 0.75rem; }
+        .btn-secondary:hover { background: #636e72; }
+        .result { margin-top: 2rem; padding: 1.25rem 1.5rem; background: #eaf2f8; border-radius: 8px; box-shadow: 0 2px 8px rgb(0 0 0 / 0.1); }
+        .result.hidden { display: none; }
+        .result h3 { margin-top: 0; margin-bottom: 1rem; }
+        .result p { font-size: 1.15rem; margin-bottom: 0.6rem; }
+        .case { border-left: 4px solid var(--primary-color); }
+        .faq { border-left: 4px solid var(--secondary-color); }
+        .case, .faq { background: var(--card-background); border-radius: var(--border-radius-md); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+        .formula-layout { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1rem 0; }
+        .formula-layout > div { flex: 1; min-width: 300px; }
+        .formula-image { width: 100%; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tooltip { border-bottom: 1px dotted #555; cursor: help; position: relative; color: var(--primary-hover-color); font-weight: 600; margin-left: 0.3rem; }
+        .tooltip:hover::after { content: attr(data-tip); position: absolute; left: 0; bottom: 125%; background: #333; color: #fff; padding: 0.3rem 0.6rem; border-radius: 5px; white-space: nowrap; font-size: 0.85rem; z-index: 10; }
+        .sr-only { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+        .content-img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        pre { background-color: #eee; padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: Consolas, "Courier New", monospace; font-size: 1rem; }
+        canvas { max-width: 100%; height: auto; margin-top: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgb(0 0 0 / 0.1); }
+        footer { background: #34495e; color: #ecf0f1; padding: 2.5rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: 3rem; width: 100%; }
+        .footer-content { max-width: 900px; margin: 0 auto; }
+        .footer-content p { margin-bottom: 1rem; }
+        .footer-links { margin-top: 1.2rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: #bdc3c7; }
+        .footer-links a:hover { color: #fff; text-decoration: underline; }
+        .copyright { margin-top: 1.5rem; color: #95a5a6; font-size: 0.9rem; }
+
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            #nav-links {
+                position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: var(--text-color-dark);
+                flex-direction: column; align-items: flex-start; padding: calc(var(--navbar-height) + 2rem) 2rem 2rem 2rem;
+                gap: 1.5rem; z-index: 999; transition: transform 0.3s ease-in-out;
+                box-shadow: 3px 0 10px rgba(0,0,0,0.2); transform: translateX(-100%);
+            }
+            #nav-links.show { transform: translateX(0); }
+            #nav-links a { font-size: 1.2rem; width: 100%; }
+            .main-layout { flex-direction: column; gap: 0; padding: 0 1rem; }
+            .main-right { position: static; background: transparent; box-shadow: none; padding: 0; margin: 0; display: contents; }
+
+            /* 【關鍵修正】為所有卡片式區塊在移動端設置統一的樣式和間距 */
+            .calculator-highlight,
+            .card,
+            .quick-nav,
+            .side-info,
+            .tool-recommend,
+            .news-feed {
+                width: 100%;
+                margin-bottom: 1.5rem;
+            }
+
+            /* 元素重排 */
+            .main-left { min-width: unset; width: 100%; order: 3; margin-bottom: 0; }
+            .calculator-highlight { order: 1; }
+            .quick-nav { order: 2; background: #f4f8fb; padding: 1.5rem; box-shadow: var(--card-shadow); }
+            .tool-recommend { order: 4; }
+            .news-feed { order: 5; }
+            .side-info { order: 6; }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .main-layout { padding: 0 0.5rem; }
+            .card, .calculator-highlight { padding: 1.5rem 1rem; }
+            .footer-links { flex-direction: column; gap: 0.8rem; }
+        }
+        @media print {
+            body { background: none; font-size: 12pt; }
+            nav, footer, .main-right { display: none; }
+            .main-left { width: 100%; }
+            .card, .calculator-highlight { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">定期定額計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu"><span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span></div>
+            <div id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="Stock-Calculator.html">股票平均價計算機</a>
+               <a href="index.html">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+    <div id="menu-overlay"></div>
+    <div class="main-content-wrapper">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="calculator-highlight">
+                    <h1 id="regular-fixed-compound-calculator">定期定額複利計算機</h1>
+                    <section aria-labelledby="calculator-title">
+                        <form id="regularFixedForm" aria-describedby="form-desc">
+                            <p id="form-desc">使用「<strong>定期定額複利計算機</strong>」，輕鬆試算您每月固定投入的資金，在複利效應下能累積更多財富！</p>
+                            <label for="initialPrincipal">初始本金 (元) <span class="tooltip" data-tip="您最初投入的資金金額，若無可填寫0">?</span></label>
+                            <input type="number" id="initialPrincipal" min="0" step="100" value="0" required aria-required="true"/>
+                            <label for="monthlyInvestment">每月投入金額 (元) <span class="tooltip" data-tip="您每月固定投入的金額">?</span></label>
+                            <input type="number" id="monthlyInvestment" min="0" step="100" value="3000" required aria-required="true"/>
+                            <label for="annualRate">年化報酬率 (%) <span class="tooltip" data-tip="每年預期獲得的投資報酬率">?</span></label>
+                            <input type="number" id="annualRate" min="0" step="0.01" value="6" required aria-required="true"/>
+                            <label for="investmentYears">投資期限 (年) <span class="tooltip" data-tip="您計劃持續投資的年數">?</span></label>
+                            <input type="number" id="investmentYears" min="1" step="1" value="20" required aria-required="true"/>
+                            <div>
+                                <button type="submit" aria-label="計算定期定額複利">計算累積總額</button>
+                                <button type="button" id="resetBtn" aria-label="重置表單" class="btn-secondary">重置</button>
+                            </div>
+                        </form>
+                        <section class="result hidden" id="result" aria-live="polite">
+                            <h3>計算結果</h3>
+                            <p>累積本金總投入：<strong id="totalPrincipalInput"></strong> 元</p>
+                            <p>未來資產總額：<strong id="finalAmount"></strong> 元</p>
+                            <p>總利息收益：<strong id="totalInterest"></strong> 元</p>
+                        </section>
+                        <canvas id="growthChart" width="600" height="320" aria-label="資產增長折線圖" role="img"></canvas>
+                    </section>
+                </div>
+                <div class="card"><h2 id="what-is-regular-fixed">什麼是定期定額？</h2><p><strong>定期定額（Dollar-Cost Averaging）</strong>是指「每隔一段固定的時間（固定時間），購買固定的金額（固定金額）」，且長期、持續的投資方法。</p></div>
+               <div class="card">
+                <section aria-labelledby="how-to-use">
+                    <h2 id="how-to-use">如何使用定期定額複利計算機</h2>
+                 
+                    本線上「<strong>定期定額複利計算機</strong>」旨在幫助您輕鬆評估長期每月投入的潛在收益。只需填寫以下欄位，點擊計算，即可看到您的財富累積預測：
+                    <br><br>詳細操作步驟如下：
+                    <h3>初始本金：</h3>
+                    <ul>
+                        <li>如果您有現有的投資本金，請在此輸入。若無，填寫「0」即可。</li>
+                    </ul>
+                    <h3>每月投入金額：</h3>
+                    <ul>
+                        <li>填寫您計劃每月固定投入的金額。例如，每月儲蓄或投資3,000元，請輸入「3000」。</li>
+                    </ul>
+                    <h3>年化報酬率：</h3>
+                    <ul>
+                        <li>輸入您預期的每年投資報酬率，例如預期年報酬率為6%，請輸入「6」。</li>
+                    </ul>
+                    <h3>投資期限：</h3>
+                    <ul>
+                        <li>輸入您計劃進行定期定額投資的總年數，例如希望投資20年，請輸入「20」。</li>
+                    </ul>
+                    點擊「計算累積總額」按鈕後，您將會看到在這些條件下，您的未來資產總額、總利息收益以及總投入的本金。
+                </section>
+            </div>
+                
+ <div class="card">
+                <section aria-labelledby="calculation-formula">
+                    <h2 id="calculation-formula">定期定額複利計算公式</h2>
+                    <p>定期定額複利計算涉及到未來年金終值的概念。雖然公式較為複雜，但本計算機會自動為您完成。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1rem 0;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <p>未來值 (FV) = 初始本金 * (1 + r/12)<sup>(n*12)</sup> + 每月投入 * [((1 + r/12)<sup>(n*12)</sup> - 1) / (r/12)]</p>
+                    <pre>
+假設：
+- FV：未來資產總額
+- P：初始本金
+- M：每月投入金額
+- r：年化報酬率 (小數形式，例如 6% 為 0.06)
+- n：投資年數
+
+未來資產總額計算：
+第一部分 (初始本金複利): P * (1 + r/12)<sup>(n*12)</sup>
+第二部分 (每月投入複利): M * [((1 + r/12)<sup>(n*12)</sup> - 1) / (r/12)]
+
+總未來資產 = 第一部分 + 第二部分
+                    </pre>
+                        </div>
+                    </div>
+
+                    <p>這個公式包含了初始本金的複利增長，以及每月固定投入資金在每期所產生的複利累積。透過每月持續投入，即使面對市場波動，也能有效降低平均成本，並借助複利效應，讓資金滾雪球般成長。</p>
+                </section>
+            </div>
+
+ <div class="card">
+                <section id="advantages-of-regular-fixed">
+                    <h2>定期定額的優勢</h2>
+                    <div class="case">
+                        <h3>分散投資風險：</h3>
+                        <p>
+                            透過分批進場，避免在市場高點一次性投入大量資金，有效降低平均成本，分散了市場波動帶來的風險。
+                        </p>
+                    </div>
+                    <div class="case">
+                        <h3>享受複利效應：</h3>
+                        <p>
+                            每一次投入的資金都能隨著時間累積利息，而利息又會再產生利息，形成「利滾利」的複利效應，加速財富增長。
+                        </p>
+                    </div>
+                    <div class="case">
+                        <h3>降低心理壓力：</h3>
+                        <p>
+                            無需頻繁判斷市場時機，定期投入讓投資過程更為簡單，減少因市場短期波動而產生的情緒影響。
+                        </p>
+                    </div>
+                    <div class="case">
+                        <h3>培養良好儲蓄習慣：</h3>
+                        <p>
+                            強制性的每月投入有助於養成紀律性的儲蓄和投資習慣，是實現財務目標的重要基石。
+                        </p>
+                    </div>
+                </section>
+            </div>
+ <div class="card">
+                <section id="regular-fixed-faq">
+                    <h2>定期定額複利計算常見問答（FAQ）</h2>
+                    <div class="faq">
+                        <h3>1. 定期定額複利是什麼？</h3>
+                        <p>
+                            定期定額複利是指每月或每期投入固定金額的資金，而這些資金連同所產生的利息會持續產生新的利息，讓總資產隨著時間呈指數增長。
+                        </p>
+                    </div>
+                    <div class="faq">
+                        <h3>2. 這個計算機怎麼使用？</h3>
+                        <p>
+                            只需輸入您的初始本金（若無可填0）、每月投入金額、年化報酬率和投資期限（年），點擊「計算累積總額」即可。
+                        </p>
+                    </div>
+                    <div class="faq">
+                        <h3>3. 我可以從0開始定期定額嗎？</h3>
+                        <p>
+                            當然可以！在「初始本金」欄位填寫0，然後輸入您每月計劃投入的金額即可。定期定額非常適合小額投資者從零開始累積財富。
+                        </p>
+                    </div>
+                    <div class="faq">
+                        <h3>4. 年化報酬率應該填多少？</h3>
+                        <p>
+                            年化報酬率是預期值，建議參考您選擇的投資產品（例如股票、基金、ETF等）的歷史平均報酬率，並考慮自身的風險承受度。保守估計或參考大盤指數會是個不錯的起點。
+                        </p>
+                    </div>
+                    <div class="faq">
+                        <h3>5. 定期定額與單筆投資有何不同？</h3>
+                        <p>
+                            單筆投資是一次性投入全部資金；定期定額則是分批投入，分散風險，並且在市場波動時能平均購入成本，長期下來有助於穩定收益。
+                        </p>
+                    </div>
+                    <div class="faq">
+                        <h3>6. 我可以多久查看一次計算結果？</h3>
+                        <p>
+                            您可以在任何時間回來使用本計算機，根據您目前的資金狀況和投資計劃，隨時調整輸入參數，查看不同的預測結果。
+                        </p>
+                    </div>
+
+  <div class="faq">
+                        <h3>7. 定期定額適合什麼人？</h3>
+                        <p>
+                         1. 固定收入的族群 定期定額的特性，就是每月固定投資一定的金額，不一定要很多，但必須每個月持續投入。
+                        </p>
+              <p>
+                         2. 投資新手、低門檻 定期定額的門檻較低，且風險較小，因此很適合本金較少、經驗較為不足的投資新手。
+                        </p>
+                    </div>
+
+
+                </section>
+            </div>
+            </div>
+            <aside class="main-right">
+                <div class="tool-recommend"><h3>其他理財工具</h3>
+
+  <div class="tool-item"><a href="future-value-calculator.html">複利終值計算機</a></div>
+  <div class="tool-item"><a href="present-value-of-compound-interest.html">複利現值計算機</a></div>
+  <div class="tool-item"><a href="apr-vs-apy-calculator.html">APR/APY 轉換計算機</a></div>
+  <div class="tool-item"><a href="simple-interest-calculator.html">單利計算機</a></div>
+  <div class="tool-item"><a href="continuous-compound-interest-calculator.html">連續複利計算機</a></div>
+  <div class="tool-item"><a href="72-rule-computer.html">72法則計算機</a></div>
+  <div class="tool-item"><a href="interest-rate-calculator.html">利率計算機</a></div>
+  <div class="tool-item"><a href="loan-amortization-calculator.html">貸款計算機</a></div>
+  <div class="tool-item"><a href="mortgage-calculator.html">抵押貸款計算機</a></div>
+  <div class="tool-item"><a href="savings-bond-calculator.html">儲蓄／存款回報計算機</a></div>
+  <div class="tool-item"><a href="bond-lump-sum-loan-calculator.html">債券/固定到期金額計算機</a></div>
+  <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+
+</div>
+                <div class="news-feed"><h3>熱門理財文章</h3>
+
+  <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+  <div class="news-item"><a href="excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+  <div class="news-item"><a href="difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+
+</div>
+            </aside>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <p>本計算器提供的結果僅供參考，不應視為財務建議。</p>
+            <div class="footer-links"><a href="terms-of-service.html">服務條款</a><a href="contact-us.html">聯繫我們</a><a href="privacy-policy.html">隱私政策</a></div>
+            <p class="copyright">© 2025 定期定額複利計算器</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const links = navLinks.querySelectorAll('a');
+        const toggleMenu = () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('show'); overlay.classList.toggle('show'); };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+        links.forEach(link => { link.addEventListener('click', () => { if (navLinks.classList.contains('show')) { toggleMenu(); } }); });
+        
+        const form = document.getElementById('regularFixedForm');
+        const resultDiv = document.getElementById('result');
+        const totalPrincipalInputEl = document.getElementById('totalPrincipalInput');
+        const finalAmountEl = document.getElementById('finalAmount');
+        const totalInterestEl = document.getElementById('totalInterest');
+        const canvas = document.getElementById('growthChart');
+        const ctx = canvas.getContext('2d');
+        const resetBtn = document.getElementById('resetBtn');
+        let chart;
+
+        // 【修正】計算結果區和圖表默認隱藏
+        resultDiv.classList.add('hidden');
+        canvas.style.display = 'none';
+
+        function calculateRegularFixedCompound(initial, monthly, rate, years) {
+            const r_monthly = rate / 100 / 12; const totalMonths = years * 12;
+            const initialFV = initial * Math.pow(1 + r_monthly, totalMonths);
+            let monthlyFV = 0;
+            if (r_monthly === 0) { monthlyFV = monthly * totalMonths; }
+            else { monthlyFV = monthly * ((Math.pow(1 + r_monthly, totalMonths) - 1) / r_monthly); }
+            return initialFV + monthlyFV;
+        }
+        function generateData(initial, monthly, rate, years) {
+            const labels = Array.from({ length: years + 1 }, (_, i) => i);
+            const data = labels.map(year => calculateRegularFixedCompound(initial, monthly, rate, year).toFixed(2));
+            return { labels, data };
+        }
+        function renderChart(labels, data) {
+            canvas.style.display = 'block'; // 顯示圖表
+            if(chart) chart.destroy();
+            chart = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: '累積資產總額', data, borderColor: 'var(--secondary-color)', backgroundColor: 'rgba(46, 204, 113, 0.1)', fill: true, tension: 0.1 }] }, options: { responsive: true, scales: { x: { title: { display: true, text: '年數' } }, y: { title: { display: true, text: '資產金額 (元)' } } } } });
+        }
+        function performCalculation() {
+            const initial = parseFloat(document.getElementById('initialPrincipal').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthlyInvestment').value) || 0;
+            const rate = parseFloat(document.getElementById('annualRate').value) || 0;
+            const years = parseInt(document.getElementById('investmentYears').value, 10) || 0;
+            if (years <= 0) {
+                alert('投資期限必須大於0');
+                return;
+            }
+            const finalAmount = calculateRegularFixedCompound(initial, monthly, rate, years);
+            const totalPrincipal = initial + (monthly * years * 12);
+            const totalInterest = finalAmount - totalPrincipal;
+            totalPrincipalInputEl.textContent = totalPrincipal.toLocaleString('en-US', {maximumFractionDigits:0});
+            finalAmountEl.textContent = finalAmount.toLocaleString('en-US', {maximumFractionDigits:2});
+            totalInterestEl.textContent = totalInterest.toLocaleString('en-US', {maximumFractionDigits:2});
+            resultDiv.classList.remove('hidden');
+            const chartData = generateData(initial, monthly, rate, years);
+            renderChart(chartData.labels, chartData.data);
+        }
+        form.addEventListener('submit', (e) => { e.preventDefault(); performCalculation(); });
+        resetBtn.addEventListener('click', () => {
+            form.reset();
+            resultDiv.classList.add('hidden');
+            canvas.style.display = 'none'; // 重置時隱藏圖表
+            if(chart) chart.destroy();
+        });
+    });
+    </script>
+</body>
+</html>

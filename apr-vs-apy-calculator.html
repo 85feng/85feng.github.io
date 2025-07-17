@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+<link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>APR APY 計算機 | 線上年利率與年收益率轉換工具</title>
+    <meta name="description" content="免費的APR轉APY計算機，輕鬆換算年百分率(APR)與包含複利的年收益率(APY)。深入了解兩者差異、換算公式，以及在加密貨幣質押、貸款和儲蓄中的實際應用。" />
+    <style>
+        :root {
+            --primary-color: #3498db; --primary-hover-color: #2980b9; --secondary-color: #f39c12; /* 為APR/APY選擇一個金融感的橘色 */
+            --text-color-dark: #2c3e50; --text-color-light: #333; --background-color: #f9f9f9;
+            --card-background: #fff; --navbar-height: 60px; --container-width: 1200px;
+            --card-shadow: 0 4px 24px rgba(52, 152, 219, 0.10); --border-radius-md: 12px; --border-radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif; margin: 0; padding: 0;
+            background: var(--background-color); color: var(--text-color-light); line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column;
+        }
+        .main-layout-container { flex: 1; }
+        nav { width: 100%; background: var(--primary-color); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 60px; flex-wrap: nowrap; }
+        .nav-title { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 2rem; font-size: 1.1rem; list-style: none; margin: 0; padding: 0; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #e0e0e0; }
+        .hamburger-menu { display: none; width: 30px; height: 22px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1002; }
+        .hamburger-menu .bar { display: block; width: 100%; height: 3px; background-color: #fff; border-radius: 3px; transition: all 0.3s ease-in-out; }
+        .hamburger-menu.active .bar1 { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.active .bar2 { opacity: 0; }
+        .hamburger-menu.active .bar3 { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
+        .menu-overlay.show { display: block; opacity: 1; }
+        h1, h2, h3, h4 { color: var(--text-color-dark); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { padding-left: 20px; margin-bottom: 1rem; }
+        .main-layout { display: flex; gap: 2rem; max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; align-items: flex-start; }
+        .main-left { flex: 2; min-width: 0; }
+        .main-right { flex: 1; min-width: 220px; position: sticky; top: calc(60px + 2rem); }
+        .card, .calculator-highlight { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(52,152,219,0.10); padding: 2rem 1.5rem; margin-bottom: 2rem; }
+        .quick-nav { background: #f4f8fb; border-radius: 12px; padding: 1.2rem 1rem; box-shadow: 0 2px 8px #eaf2f8; margin-bottom: 1.5rem; }
+        .quick-nav h3 { font-size: 1.15rem; color: #217dbb; margin: 0 0 0.7rem 0; }
+        .quick-nav ul { list-style: none; padding: 0; margin: 0; }
+        .quick-nav li { margin-bottom: 0.7rem; }
+        .quick-nav a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .quick-nav a:hover { color: #217dbb; text-decoration: underline; }
+        .tool-recommend, .news-feed { margin-bottom: 1.5rem; padding: 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tool-recommend h3, .news-feed h3 { font-size: 1.1rem; color: var(--text-color-dark); margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+        .tool-item, .news-item { padding: 0.8rem 0; border-bottom: 1px dashed #eaeaea; }
+        .tool-item a, .news-item a { font-weight: 600; text-decoration: none; }
+        .tool-item a { color: #2980b9; }
+        .news-item a { color: var(--text-color-dark); }
+        .tool-item:last-child, .news-item:last-child { border-bottom: none; }
+        .case, .faq { border-left: 4px solid var(--primary-color); }
+        footer { background: #34495e; color: #ecf0f1; padding: 2rem 1.5rem; text-align: center; font-size: 0.95rem; line-height: 1.7; margin-top: auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: #495057; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; transition: all 0.2s ease; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .button-group { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .button-group button { margin: 0; padding: 0.8rem 1rem; font-weight: 600; font-size: 1rem; border-radius: 8px; cursor: pointer; border: none; transition: all 0.2s ease; }
+        .button-group button[type="submit"] { background: var(--primary-color); color: #fff; }
+        .button-group button[type="submit"]:hover { background: var(--primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .button-group button[type="reset"] { background: #f1f3f5; color: #868e96; border: 1px solid #dee2e6; }
+        .button-group button[type="reset"]:hover { background: #e9ecef; }
+        .result { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-left: 5px solid var(--secondary-color); padding: 1.5rem; margin-top: 2.5rem; text-align: center; }
+        .result h3 { margin-top: 0; }
+        .result .value { font-size: 2.5rem; font-weight: 700; color: var(--text-color-dark); margin: 0.5rem 0; display: block; }
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 1.5rem; }
+        .tab-button { flex: 1; padding: 1rem 0.5rem; border: none; background: transparent; cursor: pointer; font-size: 1.1rem; font-weight: 600; color: #7f8c8d; transition: all 0.3s; border-bottom: 3px solid transparent; }
+        .tab-button.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-links { position: fixed; left: 0; top: 0; height: 100vh; width: 250px; background-color: #2c3e50; flex-direction: column; align-items: flex-start; padding: 6rem 2rem 2rem; gap: 1.5rem; z-index: 999; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .nav-links.show { transform: translateX(0); }
+            .nav-links a { font-size: 1.2rem; width: 100%; }
+            .main-layout { flex-direction: column; padding: 0 1rem; gap: 0; }
+            .main-right { position: static; width: 100%; order: 4; }
+            .calculator-highlight { order: 1; }
+            .main-left { order: 2; min-width: unset; width: 100%; }
+            .form-grid, .button-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">APR/APY 計算機</div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span class="bar bar1"></span><span class="bar bar2"></span><span class="bar bar3"></span>
+            </div>
+            <div class="nav-links" id="nav-links">
+               <a href="payment-method.html">定期定額複利計算機</a>
+                <a href="stock-calculator.html">股票平均價計算機</a>
+               <a href="https://www.ci-calculator.com/">複利計算機</a>
+            </div>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <div class="main-layout-container">
+        <div class="main-layout">
+            <div class="main-left">
+                <div class="calculator-highlight">
+                    <h1>APR 與 APY 轉換計算機</h1>
+                    <p>使用 APR（年利率）與 APY（年收益率）計算機幫助您將APR 轉換為APY，APY 轉換為APR，使您可以輕鬆地在這兩種利率之間進行換算，以了解**包含複利效應後**的真實回報率。</p>
+                    <div class="tabs">
+                        <button class="tab-button active" data-tab="aprToApyTab">APR 轉換為 APY</button>
+                        <button class="tab-button" data-tab="apyToAprTab">APY 轉換為 APR</button>
+                    </div>
+
+                    <div id="aprToApyTab" class="tab-content active">
+                        <form id="aprToApyForm">
+                            <div class="form-grid">
+                                <div class="form-group"><label for="apr">年百分率 (APR)</label><input type="number" id="apr" value="50" min="0" step="1" required></div>
+                                <div class="form-group"><label for="periods-apr">複利計息週期 (每年)</label><select id="periods-apr" required><option value="365">每日</option><option value="52">每週</option><option value="12" selected>每月</option><option value="4">每季</option><option value="1">每年</option></select></div>
+                            </div>
+                            <div class="button-group"><button type="submit">計算 APY</button><button type="reset">重設</button></div>
+                        </form>
+                        <div id="aprToApyResult" class="result" style="display:none;"><h3>對應的 APY 是：</h3><span class="value">0 %</span></div>
+                    </div>
+
+                    <div id="apyToAprTab" class="tab-content">
+                        <form id="apyToAprForm">
+                            <div class="form-grid">
+                                <div class="form-group"><label for="apy">年收益率 (APY)</label><input type="number" id="apy" value="64.3" min="0" step="0.1" required></div>
+                                <div class="form-group"><label for="periods-apy">複利計息週期 (每年)</label><select id="periods-apy" required><option value="365">每日</option><option value="52">每週</option><option value="12" selected>每月</option><option value="4">每季</option><option value="1">每年</option></select></div>
+                            </div>
+                            <div class="button-group"><button type="submit">計算 APR</button><button type="reset">重設</button></div>
+                        </form>
+                        <div id="apyToAprResult" class="result" style="display:none;"><h3>對應的 APR 是：</h3><span class="value">0 %</span></div>
+                    </div>
+                </div>
+                <div class="quick-nav">
+                    <ul>
+                        <li><a href="#what-is-apr-apy">APR vs APY</a></li>
+                        <li><a href="#formulas-explained">換算公式</a></li>
+                        <li><a href="#practical-examples">應用實例</a></li>
+                        <li><a href="#apr-apy-faq">常見問答</a></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2 id="what-is-apr-apy">APR 和 APY 是什麼？</h2>
+                    <p><strong>APR (Annual Percentage Rate，年百分率)</strong> 是指在**不考慮複利**的情況下，您在一年內從投資中賺取或在貸款中支付的利率。它是一個**名目利率**，可以看作是金融產品的「標價」。</p>
+                    <p><strong>APY (Annual Percentage Yield，年收益率)</strong> 則是將**複利效應考慮在內**的真實年回報率。它反映了您的利息再次產生利息後，在一年內實際獲得的收益。APY是一個**實際利率**，可以看作是「實付價」。</p>
+                    <h4>核心差異：複利</h4>
+                    <p>兩者之間唯一的、也是最關鍵的差異就是**複利 (Compounding)**。因為 APY 計算了利滾利，所以在計息週期大於每年一次的情況下，**APY 永遠會高於或等於 APR**。</p>
+                </div>
+                
+                <div class="card">
+                    <h2 id="formulas-explained">APR/APY 換算公式</h2>
+                    <p>了解它們背後的數學公式，能幫助您更深入地理解其關係。</p>
+                    <h4>1. APR 轉換為 APY 公式：</h4>
+                    <pre><code>APY = (1 + APR/n)^n - 1</code></pre>
+                    <h4>2. APY 轉換為 APR 公式：</h4>
+                    <pre><code>APR = n * [ (1 + APY)^(1/n) - 1 ]</code></pre>
+                    <ul>
+                        <li><strong>APR/APY:</strong> 以小數形式表示的年利率/年收益率 (例如, 50% = 0.5)。</li>
+                        <li><strong>n:</strong> 每年的複利計息週期次數 (例如, 每月計息 n=12，每日計息 n=365)。</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h2 id="practical-examples">APR 與 APY 的實際應用實例</h2>
+                    <div class="case">
+                        <h4>場景一：加密貨幣質押 (Staking)</h4>
+                        <p>一個DeFi平台提供 <strong>120% APR</strong> 的質押獎勵，利息**每日**複利。投資者想知道實際的年收益率 (APY) 是多少？<br>
+                        <strong>計算：</strong> APY = (1 + 1.20/365)^365 - 1 ≈ 231.4%。<br>
+                        <strong>結論：</strong> 考慮到每日複利，實際的年收益率高達 <strong>231.4% APY</strong>，遠高於標示的APR。</p>
+                    </div>
+                     <div class="case">
+                        <h4>場景二：高利儲蓄帳戶</h4>
+                        <p>某家網路銀行宣傳其儲蓄帳戶有 <strong>2.0% APY</strong>，利息**每月**結算。客戶想知道其對應的基礎年利率 (APR) 是多少？<br>
+                        <strong>計算：</strong> APR = 12 * [ (1 + 0.02)^(1/12) - 1 ] ≈ 1.98%。<br>
+                        <strong>結論：</strong> 該帳戶的基礎年利率約為 <strong>1.98% APR</strong>。</p>
+                    </div>
+                    <div class="case">
+                        <h4>場景三：信用卡利率</h4>
+                        <p>一張信用卡的循環利率標示為 <strong>15% APR</strong>。由於信用卡債務通常是**每日**計息，這意味著如果您有欠款，實際承擔的年利率 (APY) 會更高。<br>
+                        <strong>計算：</strong> APY = (1 + 0.15/365)^365 - 1 ≈ 16.18%。<br>
+                        <strong>結論：</strong> 15% APR的卡債，實際上的年化成本接近 <strong>16.18% APY</strong>。</p>
+                    </div>
+                </div>
+           
+                <div class="card">
+                    <h2 id="apr-apy-faq">APR/APY 常見問答 (FAQ)</h2>
+                    <div class="faq">
+                        <h4>1. 作為投資者，我應該看重 APR 還是 APY？</h4>
+                        <p>您應該更看重 **APY (年收益率)**，因為它反映了包含複利後的真實回報，更能代表您最終能賺多少錢。APR 容易讓人低估在頻繁複利下的實際收益。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>2. APR 是否包含所有費用？</h4>
+                        <p>不一定。在貸款情境下，美國的 APR 法律上要求包含某些費用（如手續費），但在儲蓄或加密貨幣投資中，APR 通常僅指純利率，不包含交易費、提款費等。您需要仔細閱讀產品條款。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>3. 為什麼加密貨幣的 APY 有時會高得驚人？</h4>
+                        <p>這通常由多種因素造成：高 APR 的代幣獎勵、極高的複利頻率（例如每小時甚至更高頻），以及代幣價格本身的波動性。高 APY 同時也伴隨著高風險。</p>
+                    </div>
+                    <div class="faq">
+                        <h4>4. 如果計息週期是每年一次，APR 和 APY 有何不同？</h4>
+                        <p>如果每年只計息一次 (n=1)，那麼 **APR 和 APY 的數值將會完全相等**，因為沒有年中複利的機會。</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="main-right">
+
+                <div class="tool-recommend">
+                    <h3>相關理財工具</h3>
+
+  <div class="tool-item"><a href="future-value-calculator.html">複利終值計算機</a></div>
+  <div class="tool-item"><a href="present-value-of-compound-interest.html">複利現值計算機</a></div>
+  <div class="tool-item"><a href="apr-vs-apy-calculator.html">APR/APY 轉換計算機</a></div>
+  <div class="tool-item"><a href="simple-interest-calculator.html">單利計算機</a></div>
+  <div class="tool-item"><a href="continuous-compound-interest-calculator.html">連續複利計算機</a></div>
+  <div class="tool-item"><a href="72-rule-computer.html">72法則計算機</a></div>
+  <div class="tool-item"><a href="interest-rate-calculator.html">利率計算機</a></div>
+  <div class="tool-item"><a href="loan-amortization-calculator.html">貸款計算機</a></div>
+  <div class="tool-item"><a href="mortgage-calculator.html">抵押貸款計算機</a></div>
+  <div class="tool-item"><a href="savings-bond-calculator.html">儲蓄／存款回報計算機</a></div>
+  <div class="tool-item"><a href="bond-lump-sum-loan-calculator.html">債券/固定到期金額計算機</a></div>
+  <div class="tool-item"><a href="roi-calculator.html">投資報酬率計算</a></div>
+                </div>
+                <div class="news-feed">
+                    <h3>相關金融知識</h3>
+  <div class="news-item"><a href="how-to-get-lower-mortgage-rate.html">複利計算機按法</a></div>
+  <div class="news-item"><a href="excel-compound-interest-formula-tutorial.html">excel 複利 公式教學</a></div>
+  <div class="news-item"><a href="difference-between-simple-interest-and-compound-interest.html">單利與複利差異詳解</a></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 APR/APY 轉換計算機 | 本網站僅供教育參考，不構成投資建議</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 互動元件選擇 ---
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        const overlay = document.getElementById('menu-overlay');
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // --- 手機版選單功能 ---
+        const toggleMenu = () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
+        hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        overlay.addEventListener('click', toggleMenu);
+
+        // --- 頁籤切換功能 ---
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => item.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // --- APR/APY 計算機功能 ---
+        const aprToApyForm = document.getElementById('aprToApyForm');
+        const apyToAprForm = document.getElementById('apyToAprForm');
+
+        if (aprToApyForm) {
+            aprToApyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const apr = parseFloat(document.getElementById('apr').value) / 100;
+                const periods = parseInt(document.getElementById('periods-apr').value, 10);
+                if (isNaN(apr) || isNaN(periods) || apr < 0) return;
+
+                const apy = Math.pow(1 + apr / periods, periods) - 1;
+                const resultEl = document.querySelector('#aprToApyResult .value');
+                resultEl.textContent = (apy * 100).toFixed(2) + ' %';
+                document.getElementById('aprToApyResult').style.display = 'block';
+            });
+            aprToApyForm.querySelector('button[type="reset"]').addEventListener('click', () => {
+                document.getElementById('aprToApyResult').style.display = 'none';
+            });
+        }
+        
+        if (apyToAprForm) {
+            apyToAprForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const apy = parseFloat(document.getElementById('apy').value) / 100;
+                const periods = parseInt(document.getElementById('periods-apy').value, 10);
+                if (isNaN(apy) || isNaN(periods) || apy < 0) return;
+
+                const apr = periods * (Math.pow(1 + apy, 1 / periods) - 1);
+                const resultEl = document.querySelector('#apyToAprResult .value');
+                resultEl.textContent = (apr * 100).toFixed(2) + ' %';
+                document.getElementById('apyToAprResult').style.display = 'block';
+            });
+            apyToAprForm.querySelector('button[type="reset"]').addEventListener('click', () => {
+                document.getElementById('apyToAprResult').style.display = 'none';
+            });
+        }
+
+        // --- 平滑滾動功能 ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    if (navLinks.classList.contains('show')) toggleMenu();
+                    
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
